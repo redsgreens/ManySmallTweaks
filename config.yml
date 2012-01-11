@@ -1,0 +1,15 @@
+VerboseStartup: No
+
+Worlds:
+    world:
+        FloatingLadders: No
+        FloatingRails: No
+        FloatingHatch: No
+        ButtonsOnMoreBlocks: No
+        ProjectileTriggers: No
+        RedstoneIgnitesNetherrack: No
+        InfiniteCauldrons: No
+        KeepSaddleOnPigDeath: No
+        PercentSaddledPigs: 0
+        PercentColorSheep: 0
+        
