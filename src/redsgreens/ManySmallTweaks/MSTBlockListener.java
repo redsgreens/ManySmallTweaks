@@ -75,7 +75,8 @@ public class MSTBlockListener extends BlockListener {
 					
 				case RAILS:
 					if(config.FloatingRails)
-						event.setCancelled(true);
+						if(block.getRelative(BlockFace.DOWN).getType() == Material.AIR)
+							event.setCancelled(true);
 					break;
 
 			}

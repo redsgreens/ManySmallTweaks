@@ -59,7 +59,7 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.EnableProjectileTriggers)
         	getServer().getPluginManager().registerEvent(Type.PROJECTILE_HIT, entityListener, Priority.Normal, this);
         
-        if(Config.EnablePercentColorSheep || Config.EnablePercentSaddledPigs)
+        if(Config.EnablePercentColorSheep || Config.EnablePercentSaddledPigs|| Config.EnablePigsReproduceQuick)
         	getServer().getPluginManager().registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);
         
         if(Config.EnableKeepSaddleOnPigDeath)

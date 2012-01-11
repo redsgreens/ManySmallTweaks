@@ -10,6 +10,7 @@ Worlds:
         RedstoneIgnitesNetherrack: No
         InfiniteCauldrons: No
         KeepSaddleOnPigDeath: No
+        PigsReproduceQuick: No
         PercentSaddledPigs: 0
         PercentColorSheep: 0
         

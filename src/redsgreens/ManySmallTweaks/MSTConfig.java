@@ -28,6 +28,7 @@ public class MSTConfig {
     public Boolean EnableKeepSaddleOnPigDeath = false;
     public Boolean EnableRedstoneIgnitesNetherrack = false;
     public Boolean EnableInfiniteCauldrons = false;
+    public Boolean EnablePigsReproduceQuick = false;
 	
     // specific config data for all worlds in config file 
 	public HashMap<String, MSTConfigWorld> Worlds = new HashMap<String, MSTConfigWorld>();
@@ -99,6 +100,7 @@ public class MSTConfig {
 				    Boolean keepSaddleOnPigDeath = false;
 				    Boolean redstoneIgnitesNetherrack = false;
 				    Boolean infiniteCauldrons = false;
+				    Boolean pigsReproduceQuick = false;
 					
 					HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
 					
@@ -123,9 +125,11 @@ public class MSTConfig {
 						redstoneIgnitesNetherrack = (Boolean)world.get("RedstoneIgnitesNetherrack");
 					if(world.containsKey("InfiniteCauldrons"))
 						infiniteCauldrons = (Boolean)world.get("InfiniteCauldrons");
+					if(world.containsKey("PigsReproduceQuick"))
+						pigsReproduceQuick = (Boolean)world.get("PigsReproduceQuick");
 					
 					// add world to config hashmap
-					Worlds.put(worldName, new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons));
+					Worlds.put(worldName, new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick));
 					
 					if(VerboseStartup)
 					{
@@ -138,6 +142,7 @@ public class MSTConfig {
 						System.out.println("ManySmallTweaks: " + worldName + ".RedstoneIgnitesNetherrack=" + redstoneIgnitesNetherrack);
 						System.out.println("ManySmallTweaks: " + worldName + ".InfiniteCauldrons=" + infiniteCauldrons);
 						System.out.println("ManySmallTweaks: " + worldName + ".KeepSaddleOnPigDeath=" + keepSaddleOnPigDeath);
+						System.out.println("ManySmallTweaks: " + worldName + ".PigsReproduceQuick=" + pigsReproduceQuick);
 						System.out.println("ManySmallTweaks: " + worldName + ".PercentSaddledPigs=" + percentSaddledPigs);
 						System.out.println("ManySmallTweaks: " + worldName + ".PercentColorSheep=" + percentColorSheep);
 					}

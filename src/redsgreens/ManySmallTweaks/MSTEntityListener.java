@@ -132,7 +132,15 @@ public class MSTEntityListener extends EntityListener {
 			    			}, 0);
 		    			}
 	    			}
-	    			// baby pigs have Age=-24000
+
+	    			if(config.PigsReproduceQuick)
+	    			{
+	    				// see if this is a baby pig
+	    				if(pig.getAge() == -24000)
+	    				{
+	    					
+	    				}
+	    			}
 	    		}
 	    		else if(entity instanceof Sheep && config.PercentColorSheep > 0)
 	    		{
