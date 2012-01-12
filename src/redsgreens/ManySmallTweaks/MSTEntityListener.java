@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Sheep;
@@ -99,6 +100,8 @@ public class MSTEntityListener extends EntityListener {
     }
     
     private ArrayList<Pig> Pigs = new ArrayList<Pig>();
+    private ArrayList<Location> BabyPigLocations = new ArrayList<Location>();
+    
     private ArrayList<Sheep> Sheeps = new ArrayList<Sheep>();
     private Random rand = new Random();
     
@@ -138,7 +141,27 @@ public class MSTEntityListener extends EntityListener {
 	    				// see if this is a baby pig
 	    				if(pig.getAge() == -24000)
 	    				{
-	    					
+	    					final Location loc = pig.getLocation();
+
+	    					if(!BabyPigLocations.contains(loc))
+	    					{
+		    					BabyPigLocations.add(loc);
+
+		    					World world = loc.getWorld();
+		    					Integer numSiblings = rand.nextInt(3);		    					
+
+		    					for(int n=0; n<numSiblings; n++)
+		    					{
+		    						Pig bp = (Pig) world.spawnCreature(loc, CreatureType.PIG);
+		    						bp.setAge(-24000);
+		    					}
+
+				    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+				    			    public void run() {
+				    			    	BabyPigLocations.remove(loc);
+				    			    }
+				    			}, 5);
+	    					}
 	    				}
 	    			}
 	    		}

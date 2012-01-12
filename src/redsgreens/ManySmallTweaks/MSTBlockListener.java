@@ -28,7 +28,7 @@ public class MSTBlockListener extends BlockListener {
 	{
 		if(event.isCancelled()) return;
 
-		Block block = event.getBlock();
+		final Block block = event.getBlock();
 		String worldName = block.getLocation().getWorld().getName();
 
 		if(Plugin.Config.Worlds.containsKey(worldName))
@@ -74,6 +74,7 @@ public class MSTBlockListener extends BlockListener {
 					break;
 					
 				case RAILS:
+				case DETECTOR_RAIL:
 					if(config.FloatingRails)
 						if(block.getRelative(BlockFace.DOWN).getType() == Material.AIR)
 							event.setCancelled(true);
