@@ -70,7 +70,8 @@ public class MSTBlockListener extends BlockListener {
 				case STONE_BUTTON:
 				case LEVER:
 					if(config.ButtonsOnMoreBlocks)
-						event.setCancelled(true);
+						if(Plugin.getBlockBehindButton(block).getType() != Material.AIR)
+							event.setCancelled(true);
 					break;
 					
 				case RAILS:
