@@ -30,4 +30,9 @@ public class MSTConfigWorld {
 		InfiniteCauldrons = infiniteCauldrons;
 		PigsReproduceQuick = pigsReproduceQuick;
 	}
+	
+	public MSTConfigWorld()
+	{
+		
+	}
 }

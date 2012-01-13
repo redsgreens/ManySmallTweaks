@@ -46,22 +46,17 @@ public class MSTPlayerListener extends PlayerListener {
 
 		String worldName = event.getPlayer().getLocation().getWorld().getName();
 
-		if(Plugin.Config.Worlds.containsKey(worldName))
-		{
-			MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
-
-			if(config.ButtonsOnMoreBlocks)
-				handleButtonsOnMoreBlocks(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
-			
-			if(config.FloatingLadders)
-				handleFloatingLadders(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
-			
-			if(config.FloatingRails)
-				handleFloatingRails(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
-			
-			if(config.InfiniteCauldrons)
-				handleInfiniteCauldrons(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
-		}
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.ButtonsOnMoreBlocks))
+			handleButtonsOnMoreBlocks(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
+		
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLadders))
+			handleFloatingLadders(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
+		
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
+			handleFloatingRails(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
+		
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.InfiniteCauldrons))
+			handleInfiniteCauldrons(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
 		
     }
     

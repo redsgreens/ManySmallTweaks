@@ -30,60 +30,53 @@ public class MSTBlockListener extends BlockListener {
 
 		final Block block = event.getBlock();
 		String worldName = block.getLocation().getWorld().getName();
+		Material material = block.getType();
 
-		if(Plugin.Config.Worlds.containsKey(worldName))
+		switch(material)
 		{
+			case LADDER:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLadders))
+				{
+					Block behindLadder = Plugin.getBlockBehindLadder(block);
 
-			MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
-			
-			Material material = block.getType();
-
-			switch(material)
-			{
-				case LADDER:
-					if(config.FloatingLadders)
+					if(behindLadder != null && behindLadder.getType() == Material.AIR && !DeletedLadders.contains(behindLadder))
 					{
-						Block behindLadder = Plugin.getBlockBehindLadder(block);
-
-						if(behindLadder != null && behindLadder.getType() == Material.AIR && !DeletedLadders.contains(behindLadder))
-						{
-							behindLadder.setType(Material.LADDER);
-							Byte data = block.getData();
-							
-							if(data % 2 == 0)
-								data++;
-							else
-								data--;
-
-							behindLadder.setData(data);
-						}
+						behindLadder.setType(Material.LADDER);
+						Byte data = block.getData();
 						
-						event.setCancelled(true);
-					}
-					break;
-					
-				case TRAP_DOOR:
-					if(config.FloatingHatch)
-						event.setCancelled(true);
-					break;
-					
-				case STONE_BUTTON:
-				case LEVER:
-					if(config.ButtonsOnMoreBlocks)
-						if(Plugin.getBlockBehindButton(block).getType() != Material.AIR)
-							event.setCancelled(true);
-					break;
-					
-				case RAILS:
-				case DETECTOR_RAIL:
-					if(config.FloatingRails)
-						if(block.getRelative(BlockFace.DOWN).getType() == Material.AIR)
-							event.setCancelled(true);
-					break;
+						if(data % 2 == 0)
+							data++;
+						else
+							data--;
 
-			}
-		
-		}		
+						behindLadder.setData(data);
+					}
+					
+					event.setCancelled(true);
+				}
+				break;
+				
+			case TRAP_DOOR:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingHatch))
+					event.setCancelled(true);
+				break;
+				
+			case STONE_BUTTON:
+			case LEVER:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.ButtonsOnMoreBlocks))
+					if(Plugin.getBlockBehindButton(block).getType() != Material.AIR)
+						event.setCancelled(true);
+				break;
+				
+			case RAILS:
+			case DETECTOR_RAIL:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
+					if(block.getRelative(BlockFace.DOWN).getType() == Material.AIR)
+						event.setCancelled(true);
+				break;
+
+		}
+
 	}
 	
 	@Override
@@ -94,29 +87,23 @@ public class MSTBlockListener extends BlockListener {
 		Block block = event.getBlock();
 		String worldName = block.getLocation().getWorld().getName();
 
-		if(Plugin.Config.Worlds.containsKey(worldName))
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLadders))
 		{
-			MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
+			Material material = block.getType();
 			
-			if(config.FloatingLadders)
+			if(material == Material.LADDER)
 			{
-				Material material = block.getType();
-				
-				if(material == Material.LADDER)
+				Block behindLadder = Plugin.getBlockBehindLadder(block);
+				if(behindLadder.getType() == Material.LADDER)
 				{
-					Block behindLadder = Plugin.getBlockBehindLadder(block);
-					if(behindLadder.getType() == Material.LADDER)
-					{
-						DeletedLadders.add(behindLadder);
-						behindLadder.setType(Material.AIR);
-						DeletedLadders.remove(behindLadder);
-					}
+					DeletedLadders.add(behindLadder);
+					behindLadder.setType(Material.AIR);
+					DeletedLadders.remove(behindLadder);
 				}
-
 			}
-		
 
 		}
+
 	}
 	
 	@Override

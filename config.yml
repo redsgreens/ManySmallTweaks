@@ -1,7 +1,20 @@
 VerboseStartup: No
 
+Defaults:
+    FloatingLadders: No
+    FloatingRails: No
+    FloatingHatch: No
+    ButtonsOnMoreBlocks: No
+    ProjectileTriggers: No
+    RedstoneIgnitesNetherrack: No
+    InfiniteCauldrons: No
+    KeepSaddleOnPigDeath: No
+    PigsReproduceQuick: No
+    PercentSaddledPigs: 0
+    PercentColorSheep: 0
+
 Worlds:
-    world:
+    change_me:
         FloatingLadders: No
         FloatingRails: No
         FloatingHatch: No

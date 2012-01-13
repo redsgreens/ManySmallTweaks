@@ -38,64 +38,56 @@ public class MSTEntityListener extends EntityListener {
     	Location location = entity.getLocation();
     	String worldName = location.getWorld().getName();
     	
-    	if(Plugin.Config.Worlds.containsKey(worldName))
-    	{
-    		MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
-    		if(config.ProjectileTriggers)
-    		{
+    	if(Plugin.Config.isTweakEnabled(worldName, MSTName.ProjectileTriggers))
+		{
 
-    	    	ArrayList<Block> blocks = Plugin.getCloseBlocks(location);
-    	    	Iterator<Block> itr = blocks.iterator();
-    	    	
-    	    	while(itr.hasNext())
+	    	ArrayList<Block> blocks = Plugin.getCloseBlocks(location);
+	    	Iterator<Block> itr = blocks.iterator();
+	    	
+	    	while(itr.hasNext())
+	    	{
+	    		Block block = itr.next();
+	    		Material material = block.getType();
+	    		
+    	    	if(material == Material.STONE_BUTTON)
     	    	{
-    	    		Block block = itr.next();
-    	    		Material material = block.getType();
-    	    		
-        	    	if(material == Material.STONE_BUTTON)
-        	    	{
-        	    		final BlockState bs = block.getState();
-        	    		MaterialData md = bs.getData();
-        	    		if(md instanceof Button)
-        	    		{
-        	    			final Button button = (Button)md;
-        	    			button.setPowered(true);
-        	    			bs.setData(button);
-        	    			bs.update();
-        	    			entity.remove();
-        	    			
-        	    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
-        	    			    public void run() {
-        	    			    	button.setPowered(false);
-        	    			    	bs.setData(button);
-        	    			    	bs.update();
-        	    			    }
-        	    			}, 10);
-        	    		}
+    	    		final BlockState bs = block.getState();
+    	    		MaterialData md = bs.getData();
+    	    		if(md instanceof Button)
+    	    		{
+    	    			final Button button = (Button)md;
+    	    			button.setPowered(true);
+    	    			bs.setData(button);
+    	    			bs.update();
+    	    			entity.remove();
+    	    			
+    	    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+    	    			    public void run() {
+    	    			    	button.setPowered(false);
+    	    			    	bs.setData(button);
+    	    			    	bs.update();
+    	    			    }
+    	    			}, 10);
+    	    		}
 
-        	    	}
-        	    	else if(material == Material.LEVER)
-        	    	{
-        	    		BlockState bs = block.getState();
-        	    		MaterialData md = bs.getData();
-        	    		if(md instanceof Lever)
-        	    		{
-        	    			Lever l = (Lever)md;
-        	    			l.setPowered(!l.isPowered());
-        	    			bs.setData(l);
-        	    			bs.update();
-        	    			entity.remove();
-        	    		}
-
-        	    	} 
     	    	}
+    	    	else if(material == Material.LEVER)
+    	    	{
+    	    		BlockState bs = block.getState();
+    	    		MaterialData md = bs.getData();
+    	    		if(md instanceof Lever)
+    	    		{
+    	    			Lever l = (Lever)md;
+    	    			l.setPowered(!l.isPowered());
+    	    			bs.setData(l);
+    	    			bs.update();
+    	    			entity.remove();
+    	    		}
 
-    	    	
-
-    			
-    		}
-    	}
-    	
+    	    	} 
+	    	}
+			
+		}
 
     }
     
@@ -112,80 +104,75 @@ public class MSTEntityListener extends EntityListener {
 		if(entity instanceof Pig || entity instanceof Sheep) {
 	    	String worldName = entity.getLocation().getWorld().getName();
 
-	    	if(Plugin.Config.Worlds.containsKey(worldName))
-	    	{
-	    		MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
-	    		if(entity instanceof Pig)
-	    		{
-	    			Pig pig = (Pig)entity;
+    		if(entity instanceof Pig)
+    		{
+    			Pig pig = (Pig)entity;
 
-	    			if(config.PercentSaddledPigs > 0)
+    			if(Plugin.Config.isTweakEnabled(worldName, MSTName.PercentSaddledPigs))
+    			{
+	    			if(rand.nextInt(((Math.round(((Double)(100 / Plugin.Config.getNumericTweakValue(worldName, MSTName.PercentSaddledPigs))).intValue())))) == 0)
 	    			{
-		    			if(rand.nextInt(((Math.round(((Double)(100 / config.PercentSaddledPigs)).intValue())))) == 0)
-		    			{
-			    			Pigs.add(pig);
-			    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
-			    			    public void run() {
-			    			    	while(Pigs.size() > 0){
-			    			    		Pig p = Pigs.get(0);
-			    			    		p.setSaddle(true);
-			    			    		Pigs.remove(0);
-			    			    	}
-			    			    }
-			    			}, 0);
-		    			}
-	    			}
-
-	    			if(config.PigsReproduceQuick)
-	    			{
-	    				// see if this is a baby pig
-	    				if(pig.getAge() == -24000)
-	    				{
-	    					final Location loc = pig.getLocation();
-
-	    					if(!BabyPigLocations.contains(loc))
-	    					{
-		    					BabyPigLocations.add(loc);
-
-		    					World world = loc.getWorld();
-		    					Integer numSiblings = rand.nextInt(3);		    					
-
-		    					for(int n=0; n<numSiblings; n++)
-		    					{
-		    						Pig bp = (Pig) world.spawnCreature(loc, CreatureType.PIG);
-		    						bp.setAge(-24000);
-		    					}
-
-				    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
-				    			    public void run() {
-				    			    	BabyPigLocations.remove(loc);
-				    			    }
-				    			}, 5);
-	    					}
-	    				}
-	    			}
-	    		}
-	    		else if(entity instanceof Sheep && config.PercentColorSheep > 0)
-	    		{
-	    			if(rand.nextInt(((Math.round(((Double)(100 / config.PercentColorSheep)).intValue())))) == 0)
-	    			{
-	    				Sheep sheep = (Sheep)entity;
-	    				Sheeps.add(sheep);
+		    			Pigs.add(pig);
 		    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
 		    			    public void run() {
-		    			    	while(Sheeps.size() > 0){
-		    			    		Sheep s = Sheeps.get(0);
-		    			    		s.setColor(DyeColor.values()[(new Random()).nextInt(DyeColor.values().length)]);
-		    			    		Sheeps.remove(0);
+		    			    	while(Pigs.size() > 0){
+		    			    		Pig p = Pigs.get(0);
+		    			    		p.setSaddle(true);
+		    			    		Pigs.remove(0);
 		    			    	}
 		    			    }
 		    			}, 0);
-	    				
 	    			}
-	    		}
+    			}
+
+    			if(Plugin.Config.isTweakEnabled(worldName, MSTName.PigsReproduceQuick))
+    			{
+    				// see if this is a baby pig
+    				if(pig.getAge() == -24000)
+    				{
+    					final Location loc = pig.getLocation();
+
+    					if(!BabyPigLocations.contains(loc))
+    					{
+	    					BabyPigLocations.add(loc);
+
+	    					World world = loc.getWorld();
+	    					Integer numSiblings = rand.nextInt(3);		    					
+
+	    					for(int n=0; n<numSiblings; n++)
+	    					{
+	    						Pig bp = (Pig) world.spawnCreature(loc, CreatureType.PIG);
+	    						bp.setAge(-24000);
+	    					}
+
+			    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+			    			    public void run() {
+			    			    	BabyPigLocations.remove(loc);
+			    			    }
+			    			}, 5);
+    					}
+    				}
+    			}
+    		}
+    		else if(entity instanceof Sheep && Plugin.Config.isTweakEnabled(worldName, MSTName.PercentColorSheep))
+    		{
+    			if(rand.nextInt(((Math.round(((Double)(100 / Plugin.Config.getNumericTweakValue(worldName, MSTName.PercentColorSheep))).intValue())))) == 0)
+    			{
+    				Sheep sheep = (Sheep)entity;
+    				Sheeps.add(sheep);
+	    			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+	    			    public void run() {
+	    			    	while(Sheeps.size() > 0){
+	    			    		Sheep s = Sheeps.get(0);
+	    			    		s.setColor(DyeColor.values()[(new Random()).nextInt(DyeColor.values().length)]);
+	    			    		Sheeps.remove(0);
+	    			    	}
+	    			    }
+	    			}, 0);
+    				
+    			}
+    		}
 	    		
-	    	}
-			
 		}
 		
 	}
@@ -204,16 +191,12 @@ public class MSTEntityListener extends EntityListener {
         		World world = location.getWorld();
     	    	String worldName = world.getName();
 
-    	    	if(Plugin.Config.Worlds.containsKey(worldName))
-    	    	{
-    	    		MSTConfigWorld config = Plugin.Config.Worlds.get(worldName);
-    	    		if(config.KeepSaddleOnPigDeath)
-    	    		{
-    	    			ItemStack saddle = new ItemStack(Material.SADDLE);
-    	    			saddle.setAmount(1);
-    	    			world.dropItemNaturally(location, saddle);
-    	    		}
-    	    	}
+	    		if(Plugin.Config.isTweakEnabled(worldName, MSTName.KeepSaddleOnPigDeath))
+	    		{
+	    			ItemStack saddle = new ItemStack(Material.SADDLE);
+	    			saddle.setAmount(1);
+	    			world.dropItemNaturally(location, saddle);
+	    		}
     		}
     	}
 	}
