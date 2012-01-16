@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
@@ -12,6 +13,8 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.PoweredRail;
 
 public class MSTBlockListener extends BlockListener {
 
@@ -75,6 +78,25 @@ public class MSTBlockListener extends BlockListener {
 						event.setCancelled(true);
 				break;
 
+			case POWERED_RAIL:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
+					if(block.getRelative(BlockFace.DOWN).getType() == Material.AIR)
+					{
+						event.setCancelled(true);
+
+						BlockState bs = block.getState();
+			    		MaterialData md = bs.getData();
+			    		PoweredRail pr = (PoweredRail)md;
+
+			    		if(block.getBlockPower() > 0)
+							pr.setPowered(true);
+			    		else
+			    			pr.setPowered(false);
+			    		
+			    		bs.setData(pr); 
+			    		bs.update();
+					}	    		
+				break;
 		}
 
 	}
