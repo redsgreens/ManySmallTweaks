@@ -120,87 +120,92 @@ public class MSTConfig {
 			if(configMap.containsKey("Worlds"))
 			{
 				HashMap<String, Object> worlds = (HashMap<String, Object>)configMap.get("Worlds");
-				Iterator<String> itr = worlds.keySet().iterator();
-				while(itr.hasNext())
+				if(worlds != null)
 				{
-					// initialize values for this world
-					String worldName = itr.next();
-					Boolean floatingLadders = false;
-					Boolean floatingRails = false;
-					Boolean floatingHatch = false;
-					Boolean buttonsOnMoreBlocks = false;
-					Boolean projectileTriggers = false;
-					Double percentSaddledPigs = 0D;
-				    Double percentColorSheep = 0D;
-				    Boolean keepSaddleOnPigDeath = false;
-				    Boolean redstoneIgnitesNetherrack = false;
-				    Boolean infiniteCauldrons = false;
-				    Boolean pigsReproduceQuick = false;
-					
-					HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
-					
-					// load each field
-					if(world.containsKey("FloatingLadders"))
-						floatingLadders = (Boolean)world.get("FloatingLadders");
-					else
-						floatingLadders = Defaults.FloatingLadders;
+					Iterator<String> itr = worlds.keySet().iterator();
+					while(itr.hasNext())
+					{
+						// initialize values for this world
+						String worldName = itr.next();
+						Boolean floatingLadders = false;
+						Boolean floatingRails = false;
+						Boolean floatingHatch = false;
+						Boolean buttonsOnMoreBlocks = false;
+						Boolean projectileTriggers = false;
+						Double percentSaddledPigs = 0D;
+					    Double percentColorSheep = 0D;
+					    Boolean keepSaddleOnPigDeath = false;
+					    Boolean redstoneIgnitesNetherrack = false;
+					    Boolean infiniteCauldrons = false;
+					    Boolean pigsReproduceQuick = false;
 						
-					if(world.containsKey("FloatingRails"))
-						floatingRails = (Boolean)world.get("FloatingRails");
-					else
-						floatingRails = Defaults.FloatingRails;
-					
-					if(world.containsKey("FloatingHatch"))
-						floatingHatch = (Boolean)world.get("FloatingHatch");
-					else
-						floatingHatch = Defaults.FloatingHatch;
-					
-					if(world.containsKey("ButtonsOnMoreBlocks"))
-						buttonsOnMoreBlocks = (Boolean)world.get("ButtonsOnMoreBlocks");
-					else
-						buttonsOnMoreBlocks = Defaults.ButtonsOnMoreBlocks;
-					
-					if(world.containsKey("ProjectileTriggers"))
-						projectileTriggers = (Boolean)world.get("ProjectileTriggers");
-					else
-						projectileTriggers = Defaults.ProjectileTriggers;
+						HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
 						
-					if(world.containsKey("PercentSaddledPigs"))
-						percentSaddledPigs = Double.parseDouble(world.get("PercentSaddledPigs").toString());
-					else
-						percentSaddledPigs = Defaults.PercentSaddledPigs;
-					
-					if(world.containsKey("PercentColorSheep"))
-						percentColorSheep = Double.parseDouble(world.get("PercentColorSheep").toString());
-					else
-						percentColorSheep = Defaults.PercentColorSheep;
-					
-					if(world.containsKey("KeepSaddleOnPigDeath"))
-						keepSaddleOnPigDeath = (Boolean)world.get("KeepSaddleOnPigDeath");
-					else
-						keepSaddleOnPigDeath = Defaults.KeepSaddleOnPigDeath;
-					
-					if(world.containsKey("RedstoneIgnitesNetherrack"))
-						redstoneIgnitesNetherrack = (Boolean)world.get("RedstoneIgnitesNetherrack");
-					else
-						redstoneIgnitesNetherrack = Defaults.RedstoneIgnitesNetherrack;
-					
-					if(world.containsKey("InfiniteCauldrons"))
-						infiniteCauldrons = (Boolean)world.get("InfiniteCauldrons");
-					else
-						infiniteCauldrons = Defaults.InfiniteCauldrons;
-					
-					if(world.containsKey("PigsReproduceQuick"))
-						pigsReproduceQuick = (Boolean)world.get("PigsReproduceQuick");
-					else
-						pigsReproduceQuick = Defaults.PigsReproduceQuick;
-					
-					// add world to config hashmap
-					MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick); 
-					Worlds.put(worldName, config);
-					
-					if(VerboseStartup)
-						PrintSettings(worldName, config);
+						// load each field
+						if(world.containsKey("FloatingLadders"))
+							floatingLadders = (Boolean)world.get("FloatingLadders");
+						else
+							floatingLadders = Defaults.FloatingLadders;
+							
+						if(world.containsKey("FloatingRails"))
+							floatingRails = (Boolean)world.get("FloatingRails");
+						else
+							floatingRails = Defaults.FloatingRails;
+						
+						if(world.containsKey("FloatingHatch"))
+							floatingHatch = (Boolean)world.get("FloatingHatch");
+						else
+							floatingHatch = Defaults.FloatingHatch;
+						
+						if(world.containsKey("ButtonsOnMoreBlocks"))
+							buttonsOnMoreBlocks = (Boolean)world.get("ButtonsOnMoreBlocks");
+						else
+							buttonsOnMoreBlocks = Defaults.ButtonsOnMoreBlocks;
+						
+						if(world.containsKey("ProjectileTriggers"))
+							projectileTriggers = (Boolean)world.get("ProjectileTriggers");
+						else
+							projectileTriggers = Defaults.ProjectileTriggers;
+							
+						if(world.containsKey("PercentSaddledPigs"))
+							percentSaddledPigs = Double.parseDouble(world.get("PercentSaddledPigs").toString());
+						else
+							percentSaddledPigs = Defaults.PercentSaddledPigs;
+						
+						if(world.containsKey("PercentColorSheep"))
+							percentColorSheep = Double.parseDouble(world.get("PercentColorSheep").toString());
+						else
+							percentColorSheep = Defaults.PercentColorSheep;
+						
+						if(world.containsKey("KeepSaddleOnPigDeath"))
+							keepSaddleOnPigDeath = (Boolean)world.get("KeepSaddleOnPigDeath");
+						else
+							keepSaddleOnPigDeath = Defaults.KeepSaddleOnPigDeath;
+						
+						if(world.containsKey("RedstoneIgnitesNetherrack"))
+							redstoneIgnitesNetherrack = (Boolean)world.get("RedstoneIgnitesNetherrack");
+						else
+							redstoneIgnitesNetherrack = Defaults.RedstoneIgnitesNetherrack;
+						
+						if(world.containsKey("InfiniteCauldrons"))
+							infiniteCauldrons = (Boolean)world.get("InfiniteCauldrons");
+						else
+							infiniteCauldrons = Defaults.InfiniteCauldrons;
+						
+						if(world.containsKey("PigsReproduceQuick"))
+							pigsReproduceQuick = (Boolean)world.get("PigsReproduceQuick");
+						else
+							pigsReproduceQuick = Defaults.PigsReproduceQuick;
+						
+						// add world to config hashmap
+						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick); 
+						Worlds.put(worldName, config);
+						
+						if(VerboseStartup)
+							PrintSettings(worldName, config);
+
+					}
+				
 				}
 			}
 			
