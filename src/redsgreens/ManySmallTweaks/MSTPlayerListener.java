@@ -54,7 +54,10 @@ public class MSTPlayerListener extends PlayerListener {
 		
 		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
 			handleFloatingRails(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
-		
+
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingHatch))
+			handleFloatingHatch(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
+
 		if(Plugin.Config.isTweakEnabled(worldName, MSTName.InfiniteCauldrons))
 			handleInfiniteCauldrons(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
 		
@@ -120,6 +123,61 @@ public class MSTPlayerListener extends PlayerListener {
 		if(block2.getType() != Material.AIR) return;
 		block2.setType(itemInHandMaterial);
 
+		if(player.getGameMode() != GameMode.CREATIVE)
+		{
+			// take the item from the player
+			if(itemInHand.getAmount() == 1)
+				player.setItemInHand(null);
+			else
+			{
+				itemInHand.setAmount(itemInHand.getAmount() - 1);
+				player.setItemInHand(itemInHand);
+			}
+		}
+    }
+
+    void handleFloatingHatch(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial)
+    {
+    	// return if item in hand is not a hatch
+    	if(itemInHandMaterial != Material.TRAP_DOOR) return;
+
+    	Block b;
+    	if(blockMaterial == Material.LADDER)
+    		b = block;
+    	else
+    		b = block.getRelative(blockFace);
+    	
+    	if(b.getType() != Material.LADDER) return;
+
+    	Block blockAbove = b.getRelative(BlockFace.UP);
+    	
+    	// return if block above ladder is not air
+    	if(blockAbove.getType() != Material.AIR) return;
+    	
+    	blockAbove.setType(Material.TRAP_DOOR);
+    	
+    	Byte newData = 0;
+    	switch(b.getData())
+    	{
+    	case 2: //good
+    		newData = 1; 
+    		break;
+    		
+    	case 3:
+    		newData = 0;  // not 2
+    		break;
+    		
+    	case 4: //good
+    		newData = 3;
+    		break;
+    		
+    	case 5:
+    		newData = 2; // not 4
+    		break;
+    		
+    	}
+    	blockAbove.setData(newData);
+    	
 		if(player.getGameMode() != GameMode.CREATIVE)
 		{
 			// take the item from the player

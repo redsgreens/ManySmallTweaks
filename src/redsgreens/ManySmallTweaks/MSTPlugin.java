@@ -47,7 +47,7 @@ public class MSTPlugin extends JavaPlugin {
         	WorldGuard = null;
         }
         
-        if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableFloatingHatch || Config.EnableButtonsOnMoreBlocks)
+        if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableFloatingHatch || Config.EnableFloatingHatch || Config.EnableButtonsOnMoreBlocks)
         	getServer().getPluginManager().registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Low, this);
 
         if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableButtonsOnMoreBlocks || Config.EnableInfiniteCauldrons)
