@@ -198,7 +198,7 @@ public class MSTPlayerListener extends PlayerListener {
 		if(!AllowedButtonMaterials.contains(blockMaterial)) return;
 
 		// return if they don't have a button or lever in hand
-		if(itemInHandMaterial != Material.STONE_BUTTON && itemInHandMaterial != Material.LEVER) return;
+		if(itemInHandMaterial != Material.STONE_BUTTON && itemInHandMaterial != Material.LEVER && itemInHandMaterial != Material.WOOD_PLATE && itemInHandMaterial != Material.STONE_PLATE) return;
 
 		// determine which face was clicked and attach the corresponding button
 		Block button;
@@ -242,7 +242,8 @@ public class MSTPlayerListener extends PlayerListener {
 			if(button.getType() == Material.AIR)
 			{
 				button.setType(itemInHandMaterial);
-				button.setData((byte)5);
+				if(itemInHandMaterial == Material.LEVER)
+					button.setData((byte)5);
 			}
 			break;
 		default: // top or bottom was clicked, do nothing

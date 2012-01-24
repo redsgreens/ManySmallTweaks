@@ -70,7 +70,14 @@ public class MSTBlockListener extends BlockListener {
 					if(Plugin.getBlockBehindButton(block).getType() != Material.AIR)
 						event.setCancelled(true);
 				break;
-				
+
+			case WOOD_PLATE:
+			case STONE_PLATE:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.ButtonsOnMoreBlocks))
+					if(block.getRelative(BlockFace.DOWN).getType() != Material.AIR)
+						event.setCancelled(true);
+				break;
+
 			case RAILS:
 			case DETECTOR_RAIL:
 				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
