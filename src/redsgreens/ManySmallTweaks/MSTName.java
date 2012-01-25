@@ -11,6 +11,7 @@ public enum MSTName {
 	KeepSaddleOnPigDeath,
 	RedstoneIgnitesNetherrack,
 	InfiniteCauldrons,
-	PigsReproduceQuick
+	PigsReproduceQuick,
+	RedstoneIgnitesPumpkins
 	
 }

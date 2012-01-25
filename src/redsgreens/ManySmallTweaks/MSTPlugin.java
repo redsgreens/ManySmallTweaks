@@ -65,7 +65,7 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.EnableKeepSaddleOnPigDeath)
         	getServer().getPluginManager().registerEvent(Type.ENTITY_DEATH, entityListener, Priority.Normal, this);
         
-        if(Config.EnableRedstoneIgnitesNetherrack)
+        if(Config.EnableRedstoneIgnitesNetherrack || Config.EnableRedstoneIgnitesPumpkins)
         {
             getServer().getPluginManager().registerEvent(Type.REDSTONE_CHANGE, blockListener, Priority.Normal, this);
             getServer().getPluginManager().registerEvent(Type.BLOCK_PISTON_EXTEND, blockListener, Priority.Normal, this);

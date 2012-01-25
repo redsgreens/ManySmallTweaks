@@ -139,26 +139,43 @@ public class MSTBlockListener extends BlockListener {
 	public void onBlockRedstoneChange(BlockRedstoneEvent event)
 	{
 		Block block = event.getBlock();
+		Material material = block.getType();
+		String worldName = block.getWorld().getName();
 		
-		// return if its not netherrack
-		if(block.getType() != Material.NETHERRACK) return;
-		
-		int newCurrent = event.getNewCurrent();
-		
-		if(newCurrent > 0)
+		if(material == Material.NETHERRACK && Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
 		{
-			// set block on fire
-			Block blockAbove = block.getRelative(BlockFace.UP);
-			if(blockAbove.getType() == Material.AIR)
-				blockAbove.setType(Material.FIRE);
+			if(event.getNewCurrent() > 0)
+			{
+				// set block on fire
+				Block blockAbove = block.getRelative(BlockFace.UP);
+				if(blockAbove.getType() == Material.AIR)
+					blockAbove.setType(Material.FIRE);
+			}
+			else
+			{
+				// extinguish block
+				Block blockAbove = block.getRelative(BlockFace.UP);
+				if(blockAbove.getType() == Material.FIRE)
+					blockAbove.setType(Material.AIR);
+			}
+			
 		}
-		else if(newCurrent == 0)
+		else if((material == Material.PUMPKIN || material == Material.JACK_O_LANTERN) && Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesPumpkins))
 		{
-			// extinguish block
-			Block blockAbove = block.getRelative(BlockFace.UP);
-			if(blockAbove.getType() == Material.FIRE)
-				blockAbove.setType(Material.AIR);
+			Byte data = block.getData();
+			if(event.getNewCurrent() > 0)
+			{
+				block.setType(Material.JACK_O_LANTERN);
+				block.setData(data);
+			}
+			else
+			{
+				block.setType(Material.PUMPKIN);
+				block.setData(data);
+			}
+
 		}
+		
 	}
 
 	@Override
@@ -167,17 +184,31 @@ public class MSTBlockListener extends BlockListener {
 		if(event.isCancelled()) return;
 		
 		Block block = event.getBlock();
-		if(block.getType() != Material.NETHERRACK) return;
+		Material material = block.getType();
+		String worldName = block.getWorld().getName();
 
-		
-		if(block.getBlockPower() > 0)
+		if(material == Material.NETHERRACK && Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
 		{
-			// set block on fire
-			Block blockAbove = block.getRelative(BlockFace.UP);
-			if(blockAbove.getType() == Material.AIR)
-				blockAbove.setType(Material.FIRE);
+			if(block.getBlockPower() > 0)
+			{
+				// set block on fire
+				Block blockAbove = block.getRelative(BlockFace.UP);
+				if(blockAbove.getType() == Material.AIR)
+					blockAbove.setType(Material.FIRE);
+			}
 		}
-
+		else if(material == Material.PUMPKIN && Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesPumpkins))
+		{
+			// replace with jackolantern
+			if(block.getBlockPower() > 0)
+			{
+				Byte data = block.getData();
+				block.setType(Material.JACK_O_LANTERN);
+				block.setData(data);				
+			}
+			
+		}
+		
 	}
 
 	
@@ -188,18 +219,23 @@ public class MSTBlockListener extends BlockListener {
 	{
 		if(event.isCancelled()) return;
 
-		BlockFace direction = event.getDirection();
+		String worldName = event.getBlock().getWorld().getName();
 		
-		Iterator<Block> itr = event.getBlocks().iterator();
-		while(itr.hasNext())
-			MovingBlocks.add(itr.next().getRelative(direction));
-		
-		Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
-		    public void run() {
-		    	checkNetherrack();
-		    }
-		}, 5);
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
+		{
+			BlockFace direction = event.getDirection();
+			
+			Iterator<Block> itr = event.getBlocks().iterator();
+			while(itr.hasNext())
+				MovingBlocks.add(itr.next().getRelative(direction));
+			
+			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+			    public void run() {
+			    	checkNetherrack();
+			    }
+			}, 5);
 
+		}
 	}
 
 	@Override
@@ -209,14 +245,19 @@ public class MSTBlockListener extends BlockListener {
 
 		if(event.isSticky())
 		{
-			MovingBlocks.add(event.getBlock().getRelative(event.getDirection()));
-		
-			Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
-			    public void run() {
-			    	checkNetherrack();
-			    }
-			}, 5);
+			String worldName = event.getBlock().getWorld().getName();
+			
+			if(Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
+			{
+				MovingBlocks.add(event.getBlock().getRelative(event.getDirection()));
+				
+				Plugin.getServer().getScheduler().scheduleSyncDelayedTask(Plugin, new Runnable() {
+				    public void run() {
+				    	checkNetherrack();
+				    }
+				}, 5);
 
+			}
 		}		
 	}
 

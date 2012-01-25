@@ -29,6 +29,7 @@ public class MSTConfig {
     public Boolean EnableRedstoneIgnitesNetherrack = false;
     public Boolean EnableInfiniteCauldrons = false;
     public Boolean EnablePigsReproduceQuick = false;
+    public Boolean EnableRedstoneIgnitesPumpkins = false;
 	
     public MSTConfigWorld Defaults = new MSTConfigWorld();
     
@@ -110,6 +111,8 @@ public class MSTConfig {
 					Defaults.InfiniteCauldrons = (Boolean)defaults.get("InfiniteCauldrons");
 				if(defaults.containsKey("PigsReproduceQuick"))
 					Defaults.PigsReproduceQuick = (Boolean)defaults.get("PigsReproduceQuick");
+				if(defaults.containsKey("RedstoneIgnitesPumpkins"))
+					Defaults.RedstoneIgnitesPumpkins = (Boolean)defaults.get("RedstoneIgnitesPumpkins");
 
 				if(VerboseStartup)
 					PrintSettings("Defaults", Defaults);
@@ -138,6 +141,7 @@ public class MSTConfig {
 					    Boolean redstoneIgnitesNetherrack = false;
 					    Boolean infiniteCauldrons = false;
 					    Boolean pigsReproduceQuick = false;
+					    Boolean redstoneIgnitesPumpkins = false;
 						
 						HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
 						
@@ -197,8 +201,13 @@ public class MSTConfig {
 						else
 							pigsReproduceQuick = Defaults.PigsReproduceQuick;
 						
+						if(world.containsKey("RedstoneIgnitesPumpkins"))
+							redstoneIgnitesPumpkins = (Boolean)world.get("RedstoneIgnitesPumpkins");
+						else
+							redstoneIgnitesPumpkins = Defaults.RedstoneIgnitesPumpkins;
+						
 						// add world to config hashmap
-						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick); 
+						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins); 
 						Worlds.put(worldName, config);
 						
 						if(VerboseStartup)
@@ -234,6 +243,7 @@ public class MSTConfig {
 			if(config.KeepSaddleOnPigDeath) EnableKeepSaddleOnPigDeath = true;
 			if(config.RedstoneIgnitesNetherrack) EnableRedstoneIgnitesNetherrack = true;
 			if(config.InfiniteCauldrons) EnableInfiniteCauldrons = true;
+			if(config.RedstoneIgnitesPumpkins) EnableRedstoneIgnitesPumpkins = true; 
 		}
 		
 		// remove defaults from worlds list after testing for enabled options
@@ -291,6 +301,9 @@ public class MSTConfig {
 		case PigsReproduceQuick:
 			return config.PigsReproduceQuick;
 
+		case RedstoneIgnitesPumpkins:
+			return config.RedstoneIgnitesPumpkins;
+			
 		default: 
 			return false;
 		}
@@ -328,6 +341,7 @@ public class MSTConfig {
 		System.out.println("ManySmallTweaks: " + name + ".ButtonsOnMoreBlocks=" + config.ButtonsOnMoreBlocks);
 		System.out.println("ManySmallTweaks: " + name + ".ProjectileTriggers=" + config.ProjectileTriggers);
 		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesNetherrack=" + config.RedstoneIgnitesNetherrack);
+		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesPumpkins=" + config.RedstoneIgnitesPumpkins);
 		System.out.println("ManySmallTweaks: " + name + ".InfiniteCauldrons=" + config.InfiniteCauldrons);
 		System.out.println("ManySmallTweaks: " + name + ".KeepSaddleOnPigDeath=" + config.KeepSaddleOnPigDeath);
 		System.out.println("ManySmallTweaks: " + name + ".PigsReproduceQuick=" + config.PigsReproduceQuick);

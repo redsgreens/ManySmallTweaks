@@ -12,6 +12,7 @@ Defaults:
     PigsReproduceQuick: No
     PercentSaddledPigs: 0
     PercentColorSheep: 0
+    RedstoneIgnitesPumpkins: No
 
 Worlds:
     change_me:
@@ -26,4 +27,5 @@ Worlds:
         PigsReproduceQuick: No
         PercentSaddledPigs: 0
         PercentColorSheep: 0
+        RedstoneIgnitesPumpkins: No
         

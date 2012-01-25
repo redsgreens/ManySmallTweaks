@@ -13,10 +13,11 @@ public class MSTConfigWorld {
     public Boolean RedstoneIgnitesNetherrack = false;
     public Boolean InfiniteCauldrons = false;
     public Boolean PigsReproduceQuick = false;
+    public Boolean RedstoneIgnitesPumpkins = false;
 
 	public MSTConfigWorld(Boolean floatingLadders, Boolean floatingRails, Boolean floatingHatch, Boolean buttonsOnMoreBlocks, 
 			Boolean projectileTriggers, Double percentSaddledPigs, Double percentColorSheep, Boolean keepSaddleOnPigDeath, Boolean redstoneIgnitesNetherrack,
-			Boolean infiniteCauldrons, Boolean pigsReproduceQuick)
+			Boolean infiniteCauldrons, Boolean pigsReproduceQuick, Boolean redstoneIgnitesPumpkins)
 	{
 		FloatingLadders = floatingLadders;
 		FloatingRails = floatingRails;
@@ -29,6 +30,7 @@ public class MSTConfigWorld {
 		RedstoneIgnitesNetherrack = redstoneIgnitesNetherrack;
 		InfiniteCauldrons = infiniteCauldrons;
 		PigsReproduceQuick = pigsReproduceQuick;
+		RedstoneIgnitesPumpkins = redstoneIgnitesPumpkins;
 	}
 	
 	public MSTConfigWorld()
