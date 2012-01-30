@@ -7,12 +7,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.ItemStack;
 
-public class MSTPlayerListener extends PlayerListener {
+public class MSTPlayerListener implements Listener {
 
 	private MSTPlugin Plugin;
 	public MSTPlayerListener(MSTPlugin plugin)
@@ -22,7 +24,7 @@ public class MSTPlayerListener extends PlayerListener {
 
     ArrayList<Material> AllowedButtonMaterials = new ArrayList<Material>(Arrays.asList(Material.TNT, Material.MOB_SPAWNER, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_MOVING_PIECE, Material.SOIL, Material.WOODEN_DOOR, Material.WOOD_DOOR, Material.IRON_DOOR_BLOCK, Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
 
-    @Override
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event)
     // catch player click events
     {

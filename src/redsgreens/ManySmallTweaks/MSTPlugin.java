@@ -8,9 +8,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -47,6 +46,12 @@ public class MSTPlugin extends JavaPlugin {
         	WorldGuard = null;
         }
         
+        // register our events
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(blockListener, this);
+        pm.registerEvents(playerListener, this);
+        pm.registerEvents(entityListener, this);
+/*        
         if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableFloatingHatch || Config.EnableFloatingHatch || Config.EnableButtonsOnMoreBlocks)
         	getServer().getPluginManager().registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Low, this);
 
@@ -72,6 +77,7 @@ public class MSTPlugin extends JavaPlugin {
             getServer().getPluginManager().registerEvent(Type.BLOCK_PISTON_RETRACT, blockListener, Priority.Normal, this);
         	getServer().getPluginManager().registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
         }
+*/
         
         System.out.println(this.Name + " v" + this.Version + " is enabled!" );
     }
@@ -125,16 +131,37 @@ public class MSTPlugin extends JavaPlugin {
 	public ArrayList<Block> getCloseBlocks(Location loc)
 	{
 		ArrayList<Block> blocks = new ArrayList<Block>();
-		ArrayList<Location> locations = new ArrayList<Location>();
 		World world = loc.getWorld();
+		ArrayList<Location> locations = new ArrayList<Location>();
 		
 		locations.add(loc);
-		locations.add(loc.add(0.25, 0, 0));
-		locations.add(loc.add(-0.25, 0, 0));
-		locations.add(loc.add(0, 0.25, 0));
-		locations.add(loc.add(0, -0.25, 0));
-		locations.add(loc.add(0, 0, 0.25));
-		locations.add(loc.add(0, 0, -0.25));
+		locations.add(loc.clone().add(-0.5, -0.5, -0.5));
+		locations.add(loc.clone().add(-0.5, -0.5, 0));
+		locations.add(loc.clone().add(-0.5, -0.5, 0.5));
+		locations.add(loc.clone().add(-0.5, 0, -0.5));
+		locations.add(loc.clone().add(-0.5, 0, 0));
+		locations.add(loc.clone().add(-0.5, 0, 0.5));
+		locations.add(loc.clone().add(-0.5, 0.5, -0.5));
+		locations.add(loc.clone().add(-0.5, 0.5, 0));
+		locations.add(loc.clone().add(-0.5, 0.5, 0.5));
+		locations.add(loc.clone().add(0, -0.5, -0.5));
+		locations.add(loc.clone().add(0, -0.5, 0));
+		locations.add(loc.clone().add(0, -0.5, 0.5));
+		locations.add(loc.clone().add(0, 0, -0.5));
+		locations.add(loc.clone().add(0, 0, 0));
+		locations.add(loc.clone().add(0, 0, 0.5));
+		locations.add(loc.clone().add(0, 0.5, -0.5));
+		locations.add(loc.clone().add(0, 0.5, 0));
+		locations.add(loc.clone().add(0, 0.5, 0.5));
+		locations.add(loc.clone().add(0.5, -0.5, -0.5));
+		locations.add(loc.clone().add(0.5, -0.5, 0));
+		locations.add(loc.clone().add(0.5, -0.5, 0.5));
+		locations.add(loc.clone().add(0.5, 0, -0.5));
+		locations.add(loc.clone().add(0.5, 0, 0));
+		locations.add(loc.clone().add(0.5, 0, 0.5));
+		locations.add(loc.clone().add(0.5, 0.5, -0.5));
+		locations.add(loc.clone().add(0.5, 0.5, 0));
+		locations.add(loc.clone().add(0.5, 0.5, 0.5));
 
 		Iterator<Location> itr = locations.iterator();
 		while(itr.hasNext())
@@ -144,6 +171,7 @@ public class MSTPlugin extends JavaPlugin {
 			if(!blocks.contains(block))
 				blocks.add(block);
 		}
+		
 		return blocks;
 	}
 	

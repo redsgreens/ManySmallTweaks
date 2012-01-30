@@ -6,8 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
@@ -16,7 +18,7 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.PoweredRail;
 
-public class MSTBlockListener extends BlockListener {
+public class MSTBlockListener implements Listener {
 
 	ArrayList<Block> DeletedLadders = new ArrayList<Block>();
 	
@@ -26,7 +28,7 @@ public class MSTBlockListener extends BlockListener {
 		Plugin = plugin;
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.LOW)
 	public void onBlockPhysics(BlockPhysicsEvent event)
 	{
 		if(event.isCancelled()) return;
@@ -108,7 +110,7 @@ public class MSTBlockListener extends BlockListener {
 
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockBreak(BlockBreakEvent event)
 	{
 		if(event.isCancelled()) return;
@@ -135,7 +137,7 @@ public class MSTBlockListener extends BlockListener {
 
 	}
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockRedstoneChange(BlockRedstoneEvent event)
 	{
 		Block block = event.getBlock();
@@ -178,7 +180,7 @@ public class MSTBlockListener extends BlockListener {
 		
 	}
 
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPlace(BlockPlaceEvent event)
 	{
 		if(event.isCancelled()) return;
@@ -214,7 +216,7 @@ public class MSTBlockListener extends BlockListener {
 	
 	ArrayList<Block> MovingBlocks = new ArrayList<Block>();
 	
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event)
 	{
 		if(event.isCancelled()) return;
@@ -238,7 +240,7 @@ public class MSTBlockListener extends BlockListener {
 		}
 	}
 
-	@Override
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockPistonRetract(BlockPistonRetractEvent event)
 	{
 		if(event.isCancelled()) return;

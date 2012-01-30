@@ -16,7 +16,7 @@ public class MSTConfig {
 
 	// determines if config values should be printed at startup
 	public Boolean VerboseStartup = false; 
-
+/*
 	// these will be set to true if any world has the feature enabled
 	public Boolean EnableFloatingLadders = false;
 	public Boolean EnableFloatingRails = false;
@@ -30,7 +30,7 @@ public class MSTConfig {
     public Boolean EnableInfiniteCauldrons = false;
     public Boolean EnablePigsReproduceQuick = false;
     public Boolean EnableRedstoneIgnitesPumpkins = false;
-	
+*/	
     public MSTConfigWorld Defaults = new MSTConfigWorld();
     
     // specific config data for all worlds in config file 
@@ -223,7 +223,7 @@ public class MSTConfig {
 		{
 			e.printStackTrace();
 		}
-
+/*
 		// temporarily add the defaults to the worlds list
 		Worlds.put("DEFAULTS", Defaults);
 		
@@ -248,7 +248,7 @@ public class MSTConfig {
 		
 		// remove defaults from worlds list after testing for enabled options
 		Worlds.remove("DEFAULTS");
-		
+*/		
 	}
 	
 	public Boolean isTweakEnabled(String worldName, MSTName tweak)

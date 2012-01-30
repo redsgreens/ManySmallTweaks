@@ -3,7 +3,6 @@ package redsgreens.ManySmallTweaks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,9 +12,11 @@ import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Sheep;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Button;
@@ -23,7 +24,7 @@ import org.bukkit.material.Lever;
 import org.bukkit.material.MaterialData;
 import org.bukkit.DyeColor;
 
-public class MSTEntityListener extends EntityListener {
+public class MSTEntityListener implements Listener {
 
 	private MSTPlugin Plugin;
 	public MSTEntityListener(MSTPlugin plugin)
@@ -31,7 +32,7 @@ public class MSTEntityListener extends EntityListener {
 		Plugin = plugin;
 	}
 
-    @Override
+	@EventHandler(priority = EventPriority.NORMAL)
     public void onProjectileHit(ProjectileHitEvent event)
     {
     	Entity entity = event.getEntity();
@@ -40,7 +41,6 @@ public class MSTEntityListener extends EntityListener {
     	
     	if(Plugin.Config.isTweakEnabled(worldName, MSTName.ProjectileTriggers))
 		{
-
 	    	ArrayList<Block> blocks = Plugin.getCloseBlocks(location);
 	    	Iterator<Block> itr = blocks.iterator();
 	    	
@@ -67,7 +67,7 @@ public class MSTEntityListener extends EntityListener {
     	    			    	bs.setData(button);
     	    			    	bs.update();
     	    			    }
-    	    			}, 10);
+    	    			}, 15);
     	    		}
 
     	    	}
@@ -97,6 +97,7 @@ public class MSTEntityListener extends EntityListener {
     private ArrayList<Sheep> Sheeps = new ArrayList<Sheep>();
     private Random rand = new Random();
     
+    @EventHandler(priority = EventPriority.NORMAL)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		if(event.isCancelled()) return;
     	Entity entity = event.getEntity();
@@ -177,7 +178,7 @@ public class MSTEntityListener extends EntityListener {
 		
 	}
 	
-	@Override
+    @EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDeath(EntityDeathEvent event)
 	{
     	Entity entity = event.getEntity();
