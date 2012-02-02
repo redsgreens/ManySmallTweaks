@@ -1,8 +1,9 @@
 package redsgreens.ManySmallTweaks;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import org.bukkit.GameMode;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -22,7 +23,7 @@ public class MSTPlayerListener implements Listener {
 		Plugin = plugin;
 	}
 
-    ArrayList<Material> AllowedButtonMaterials = new ArrayList<Material>(Arrays.asList(Material.TNT, Material.MOB_SPAWNER, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_MOVING_PIECE, Material.SOIL, Material.WOODEN_DOOR, Material.WOOD_DOOR, Material.IRON_DOOR_BLOCK, Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
+    Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.TNT, Material.MOB_SPAWNER, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_MOVING_PIECE, Material.SOIL, Material.WOODEN_DOOR, Material.WOOD_DOOR, Material.IRON_DOOR_BLOCK, Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -96,46 +97,39 @@ public class MSTPlayerListener implements Listener {
 			behindLadder.setData(data);
 		}
 
-		if(player.getGameMode() != GameMode.CREATIVE)
-		{
-			// take the item from the player
-			if(itemInHand.getAmount() == 1)
-				player.setItemInHand(null);
-			else
-			{
-				itemInHand.setAmount(itemInHand.getAmount() - 1);
-				player.setItemInHand(itemInHand);
-			}
-		}
+		Plugin.takeItemInHand(player);
     }
     
     void handleFloatingRails(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial)
     {
-    	// return if it's not a rail
-    	if(blockMaterial != Material.RAILS && blockMaterial != Material.DETECTOR_RAIL && blockMaterial != Material.POWERED_RAIL) return;
-    	
-    	// return if they're not holding a rail
-    	if(itemInHandMaterial != Material.RAILS && itemInHandMaterial != Material.POWERED_RAIL && itemInHandMaterial != Material.DETECTOR_RAIL) return;
+    	// if they clicked a rail
+    	if(blockMaterial == Material.RAILS || blockMaterial == Material.DETECTOR_RAIL || blockMaterial == Material.POWERED_RAIL)
+    	{
+        	// return if they're not holding a rail
+        	if(itemInHandMaterial != Material.RAILS && itemInHandMaterial != Material.POWERED_RAIL && itemInHandMaterial != Material.DETECTOR_RAIL) return;
 
-    	// return if blockface is not a side
-    	if(blockFace != BlockFace.EAST && blockFace != BlockFace.WEST && blockFace != BlockFace.NORTH && blockFace != BlockFace.SOUTH) return;
+        	// return if blockface is not a side
+        	if(blockFace != BlockFace.EAST && blockFace != BlockFace.WEST && blockFace != BlockFace.NORTH && blockFace != BlockFace.SOUTH) return;
 
-    	// place another rail in the adjacent block
-		Block block2 = block.getRelative(blockFace);
-		if(block2.getType() != Material.AIR) return;
-		block2.setType(itemInHandMaterial);
+        	// place another rail in the adjacent block
+    		Block block2 = block.getRelative(blockFace);
+    		if(block2.getType() != Material.AIR) return;
+    		block2.setType(itemInHandMaterial);
 
-		if(player.getGameMode() != GameMode.CREATIVE)
-		{
-			// take the item from the player
-			if(itemInHand.getAmount() == 1)
-				player.setItemInHand(null);
-			else
-			{
-				itemInHand.setAmount(itemInHand.getAmount() - 1);
-				player.setItemInHand(itemInHand);
-			}
-		}
+    		Plugin.takeItemInHand(player);
+    	}
+    	else if(Plugin.AllowedRailMaterials.contains(blockMaterial) && blockFace == BlockFace.UP && (itemInHandMaterial == Material.RAILS || itemInHandMaterial == Material.POWERED_RAIL || itemInHandMaterial == Material.DETECTOR_RAIL))
+    	{
+    		// they tried to place a rail somewhere it normally won't go
+    		Block blockAbove = block.getRelative(BlockFace.UP);
+    		
+    		if(blockAbove.getType() == Material.AIR)
+    		{
+    			blockAbove.setType(itemInHandMaterial);
+    			Plugin.takeItemInHand(player);
+    		}
+    	}
+
     }
 
     void handleFloatingHatch(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial)
@@ -180,17 +174,7 @@ public class MSTPlayerListener implements Listener {
     	}
     	blockAbove.setData(newData);
     	
-		if(player.getGameMode() != GameMode.CREATIVE)
-		{
-			// take the item from the player
-			if(itemInHand.getAmount() == 1)
-				player.setItemInHand(null);
-			else
-			{
-				itemInHand.setAmount(itemInHand.getAmount() - 1);
-				player.setItemInHand(itemInHand);
-			}
-		}
+    	Plugin.takeItemInHand(player);
     }
     
     void handleButtonsOnMoreBlocks(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial, PlayerInteractEvent event)
@@ -252,17 +236,7 @@ public class MSTPlayerListener implements Listener {
 			return;			
 		}
 
-		if(player.getGameMode() != GameMode.CREATIVE)
-		{
-			// take the item from the player
-			if(itemInHand.getAmount() == 1)
-				player.setItemInHand(null);
-			else
-			{
-				itemInHand.setAmount(itemInHand.getAmount() - 1);
-				player.setItemInHand(itemInHand);
-			}
-		}
+		Plugin.takeItemInHand(player);
 
 		// cancel the event so the inventory is not displayed
 		if(blockMaterial == Material.DISPENSER)

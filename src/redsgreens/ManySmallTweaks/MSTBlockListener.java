@@ -1,10 +1,7 @@
 package redsgreens.ManySmallTweaks;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,8 +22,6 @@ import org.bukkit.material.PoweredRail;
 public class MSTBlockListener implements Listener {
 
 	ArrayList<Block> DeletedLadders = new ArrayList<Block>();
-	
-	Set<Material> FloatingLadderMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE));
 	
 	private MSTPlugin Plugin;
 	public MSTBlockListener(MSTPlugin plugin)
@@ -89,13 +84,13 @@ public class MSTBlockListener implements Listener {
 			case RAILS:
 			case DETECTOR_RAIL:
 				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
-					if(FloatingLadderMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
+					if(Plugin.AllowedRailMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
 						event.setCancelled(true);
 				break;
 
 			case POWERED_RAIL:
 				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingRails))
-					if(FloatingLadderMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
+					if(Plugin.AllowedRailMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
 					{
 						event.setCancelled(true);
 

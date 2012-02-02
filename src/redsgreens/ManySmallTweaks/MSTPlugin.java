@@ -1,13 +1,19 @@
 package redsgreens.ManySmallTweaks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +31,8 @@ public class MSTPlugin extends JavaPlugin {
     public String Version;
 
     public MSTConfig Config = new MSTConfig(this);
+    
+    public Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE));
     
     public void onEnable() {
 
@@ -51,38 +59,28 @@ public class MSTPlugin extends JavaPlugin {
         pm.registerEvents(blockListener, this);
         pm.registerEvents(playerListener, this);
         pm.registerEvents(entityListener, this);
-/*        
-        if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableFloatingHatch || Config.EnableFloatingHatch || Config.EnableButtonsOnMoreBlocks)
-        	getServer().getPluginManager().registerEvent(Type.BLOCK_PHYSICS, blockListener, Priority.Low, this);
 
-        if(Config.EnableFloatingLadders || Config.EnableFloatingRails || Config.EnableButtonsOnMoreBlocks || Config.EnableInfiniteCauldrons)
-        	getServer().getPluginManager().registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Highest, this);
-
-        if(Config.EnableFloatingLadders)
-        	getServer().getPluginManager().registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Normal, this);
-
-        if(Config.EnableProjectileTriggers)
-        	getServer().getPluginManager().registerEvent(Type.PROJECTILE_HIT, entityListener, Priority.Normal, this);
-        
-        if(Config.EnablePercentColorSheep || Config.EnablePercentSaddledPigs|| Config.EnablePigsReproduceQuick)
-        	getServer().getPluginManager().registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Normal, this);
-        
-        if(Config.EnableKeepSaddleOnPigDeath)
-        	getServer().getPluginManager().registerEvent(Type.ENTITY_DEATH, entityListener, Priority.Normal, this);
-        
-        if(Config.EnableRedstoneIgnitesNetherrack || Config.EnableRedstoneIgnitesPumpkins)
-        {
-            getServer().getPluginManager().registerEvent(Type.REDSTONE_CHANGE, blockListener, Priority.Normal, this);
-            getServer().getPluginManager().registerEvent(Type.BLOCK_PISTON_EXTEND, blockListener, Priority.Normal, this);
-            getServer().getPluginManager().registerEvent(Type.BLOCK_PISTON_RETRACT, blockListener, Priority.Normal, this);
-        	getServer().getPluginManager().registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Normal, this);
-        }
-*/
-        
         System.out.println(this.Name + " v" + this.Version + " is enabled!" );
     }
 
 
+    public void takeItemInHand(Player player)
+    {
+		if(player.getGameMode() != GameMode.CREATIVE)
+		{
+			ItemStack itemInHand = player.getItemInHand();
+			
+			// take the item from the player
+			if(itemInHand.getAmount() == 1)
+				player.setItemInHand(null);
+			else
+			{
+				itemInHand.setAmount(itemInHand.getAmount() - 1);
+				player.setItemInHand(itemInHand);
+			}
+		}
+    }
+    
 	public Block getBlockBehindButton(Block b)
 	{
 		Integer d = ((Byte)b.getData()).intValue();
