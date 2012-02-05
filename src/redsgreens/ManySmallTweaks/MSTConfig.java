@@ -17,14 +17,30 @@ public class MSTConfig {
 	// determines if config values should be printed at startup
 	public Boolean VerboseStartup = false; 
 
-    public MSTConfigWorld Defaults = new MSTConfigWorld();
-    
     // specific config data for all worlds in config file 
-	private HashMap<String, MSTConfigWorld> Worlds = new HashMap<String, MSTConfigWorld>();
+	private HashMap<MSTName, HashMap<String, Boolean>> booleanWorlds = new HashMap<MSTName, HashMap<String, Boolean>>();  
+	private HashMap<MSTName, HashMap<String, Double>> doubleWorlds = new HashMap<MSTName, HashMap<String, Double>>();  
 	
 	public MSTConfig(MSTPlugin plugin)
 	{
 		Plugin = plugin;
+		
+		// set up the worlds hashmap
+		booleanWorlds.put(MSTName.ButtonsOnMoreBlocks, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.FloatingHatch, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.FloatingLadders, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.FloatingLilyPads, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.FloatingPaintings, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.FloatingRails, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.InfiniteCauldrons, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.KeepSaddleOnPigDeath, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.PigsReproduceQuick, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.ProjectileTriggers, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.RedstoneIgnitesNetherrack, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.RedstoneIgnitesPumpkins, new HashMap<String, Boolean>());
+		doubleWorlds.put(MSTName.PercentColorSheep, new HashMap<String, Double>());
+		doubleWorlds.put(MSTName.PercentSaddledPigs, new HashMap<String, Double>());
+
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -69,7 +85,10 @@ public class MSTConfig {
 			// check for verbose startup
 			if(configMap.containsKey("VerboseStartup"))
 				VerboseStartup = (Boolean)configMap.get("VerboseStartup");
-			
+
+		    // default config values
+			MSTConfigWorld Defaults = new MSTConfigWorld();
+
 			if(configMap.containsKey("Defaults"))
 			{
 				HashMap<String, Object> defaults = (HashMap<String, Object>)configMap.get("Defaults");
@@ -104,11 +123,9 @@ public class MSTConfig {
 				if(defaults.containsKey("FloatingPaintings"))
 					Defaults.FloatingPaintings = (Boolean)defaults.get("FloatingPaintings");
 
-
-				if(VerboseStartup)
-					PrintSettings("Defaults", Defaults);
-
 			}
+
+			addWorld("Defaults", Defaults);
 			
 			// loop through worlds in yaml
 			if(configMap.containsKey("Worlds"))
@@ -209,13 +226,9 @@ public class MSTConfig {
 						else
 							floatingPaintings = Defaults.FloatingPaintings;
 						
-						
 						// add world to config hashmap
 						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings); 
-						Worlds.put(worldName, config);
-						
-						if(VerboseStartup)
-							PrintSettings(worldName, config);
+						addWorld(worldName, config);
 
 					}
 				
@@ -232,108 +245,79 @@ public class MSTConfig {
 	
 	public Boolean isTweakEnabled(String worldName, MSTName tweak)
 	{
-		MSTConfigWorld config;
-		
-		if(Worlds.containsKey(worldName))
-			config = Worlds.get(worldName);
+		if(booleanWorlds.get(tweak).containsKey(worldName))
+			return booleanWorlds.get(tweak).get(worldName);
 		else
-			config = Defaults;
+			return booleanWorlds.get(tweak).get("Defaults"); 
 		
-		switch(tweak)
-		{
-		case FloatingLadders:
-			return config.FloatingLadders;
-
-		case FloatingRails:
-			return config.FloatingRails;
-			
-		case FloatingHatch:
-			return config.FloatingHatch;
-			
-		case ButtonsOnMoreBlocks:
-			return config.ButtonsOnMoreBlocks;
-			
-		case ProjectileTriggers:
-			return config.ProjectileTriggers;
-			
-		case PercentSaddledPigs:
-			if(config.PercentSaddledPigs > 0)
-				return true;
-			else
-				return false;
-			
-		case PercentColorSheep:
-			if(config.PercentColorSheep > 0)
-				return true;
-			else
-				return false;
-		
-		case KeepSaddleOnPigDeath:
-			return config.KeepSaddleOnPigDeath;
-		
-		case RedstoneIgnitesNetherrack:
-			return config.RedstoneIgnitesNetherrack;
-			
-		case InfiniteCauldrons:
-			return config.InfiniteCauldrons;
-		
-		case PigsReproduceQuick:
-			return config.PigsReproduceQuick;
-
-		case RedstoneIgnitesPumpkins:
-			return config.RedstoneIgnitesPumpkins;
-			
-		case FloatingLilyPads:
-			return config.FloatingLilyPads;
-			
-		case FloatingPaintings:
-			return config.FloatingPaintings;
-			
-		default: 
-			return false;
-		}
-
 	}
 	
 	public Double getNumericTweakValue(String worldName, MSTName tweak)
 	{
-		MSTConfigWorld config;
-		
-		if(Worlds.containsKey(worldName))
-			config = Worlds.get(worldName);
+		if(doubleWorlds.get(tweak).containsKey(worldName))
+			return doubleWorlds.get(tweak).get(worldName);
 		else
-			config = Defaults;
-		
-		switch(tweak)
-		{
-		case PercentSaddledPigs:
-			return config.PercentSaddledPigs;
-			
-		case PercentColorSheep:
-			return config.PercentColorSheep;
-
-		default:
-			return 0D;
-		}
+			return doubleWorlds.get(tweak).get("Defaults");
 	}
 	
-	void PrintSettings(String name, MSTConfigWorld config)
+	void printSettings(String name, MSTConfigWorld config)
 	{
 		// print values
-		System.out.println("ManySmallTweaks: " + name + ".FloatingLadders=" + config.FloatingLadders);
-		System.out.println("ManySmallTweaks: " + name + ".FloatingRails=" + config.FloatingRails);
-		System.out.println("ManySmallTweaks: " + name + ".FloatingHatch=" + config.FloatingHatch);
 		System.out.println("ManySmallTweaks: " + name + ".ButtonsOnMoreBlocks=" + config.ButtonsOnMoreBlocks);
+		System.out.println("ManySmallTweaks: " + name + ".FloatingHatch=" + config.FloatingHatch);
+		System.out.println("ManySmallTweaks: " + name + ".FloatingLadders=" + config.FloatingLadders);
+//		System.out.println("ManySmallTweaks: " + name + ".FloatingLilyPads=" + config.FloatingLilyPads);
+		System.out.println("ManySmallTweaks: " + name + ".FloatingPaintings=" + config.FloatingPaintings);
+		System.out.println("ManySmallTweaks: " + name + ".FloatingRails=" + config.FloatingRails);
+		System.out.println("ManySmallTweaks: " + name + ".InfiniteCauldrons=" + config.InfiniteCauldrons);
+		System.out.println("ManySmallTweaks: " + name + ".KeepSaddleOnPigDeath=" + config.KeepSaddleOnPigDeath);
+		System.out.println("ManySmallTweaks: " + name + ".PercentColorSheep=" + config.PercentColorSheep);
+		System.out.println("ManySmallTweaks: " + name + ".PercentSaddledPigs=" + config.PercentSaddledPigs);
+		System.out.println("ManySmallTweaks: " + name + ".PigsReproduceQuick=" + config.PigsReproduceQuick);
 		System.out.println("ManySmallTweaks: " + name + ".ProjectileTriggers=" + config.ProjectileTriggers);
 		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesNetherrack=" + config.RedstoneIgnitesNetherrack);
 		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesPumpkins=" + config.RedstoneIgnitesPumpkins);
-		System.out.println("ManySmallTweaks: " + name + ".InfiniteCauldrons=" + config.InfiniteCauldrons);
-		System.out.println("ManySmallTweaks: " + name + ".KeepSaddleOnPigDeath=" + config.KeepSaddleOnPigDeath);
-		System.out.println("ManySmallTweaks: " + name + ".PigsReproduceQuick=" + config.PigsReproduceQuick);
-		System.out.println("ManySmallTweaks: " + name + ".PercentSaddledPigs=" + config.PercentSaddledPigs);
-		System.out.println("ManySmallTweaks: " + name + ".PercentColorSheep=" + config.PercentColorSheep);
-//		System.out.println("ManySmallTweaks: " + name + ".FloatingLilyPads=" + config.FloatingLilyPads);
-		System.out.println("ManySmallTweaks: " + name + ".FloatingPaintings=" + config.FloatingPaintings);
 
 	}
+
+	// adds world to config hashmap
+	void addWorld(String worldName, MSTConfigWorld world)
+	{
+		booleanWorlds.get(MSTName.ButtonsOnMoreBlocks).put(worldName, world.ButtonsOnMoreBlocks);
+		booleanWorlds.get(MSTName.FloatingHatch).put(worldName, world.FloatingHatch);
+		booleanWorlds.get(MSTName.FloatingLadders).put(worldName, world.FloatingLadders);
+		booleanWorlds.get(MSTName.FloatingLilyPads).put(worldName, world.FloatingLilyPads);
+		booleanWorlds.get(MSTName.FloatingPaintings).put(worldName, world.FloatingPaintings);
+		booleanWorlds.get(MSTName.FloatingRails).put(worldName, world.FloatingRails);
+		booleanWorlds.get(MSTName.InfiniteCauldrons).put(worldName, world.InfiniteCauldrons);
+		booleanWorlds.get(MSTName.KeepSaddleOnPigDeath).put(worldName, world.KeepSaddleOnPigDeath);
+		booleanWorlds.get(MSTName.PigsReproduceQuick).put(worldName, world.PigsReproduceQuick);
+		booleanWorlds.get(MSTName.ProjectileTriggers).put(worldName, world.ProjectileTriggers);
+		booleanWorlds.get(MSTName.RedstoneIgnitesNetherrack).put(worldName, world.RedstoneIgnitesNetherrack);
+		booleanWorlds.get(MSTName.RedstoneIgnitesPumpkins).put(worldName, world.RedstoneIgnitesPumpkins);
+		doubleWorlds.get(MSTName.PercentColorSheep).put(worldName, world.PercentColorSheep);
+		doubleWorlds.get(MSTName.PercentSaddledPigs).put(worldName, world.PercentSaddledPigs);
+		
+		if(VerboseStartup)
+			printSettings(worldName, world);
+
+	}
+
+	public Boolean isTweakEnabledAnywhere(MSTName tweak)
+	{
+		if(tweak == MSTName.PercentColorSheep || tweak == MSTName.PercentSaddledPigs)
+		{
+			Iterator<Double> itr = doubleWorlds.get(tweak).values().iterator();
+			while(itr.hasNext())
+			{
+				Double d = itr.next();
+				if(d > 0) return true;
+			}
+
+			return false;
+		}
+		else
+			return booleanWorlds.get(tweak).values().contains(true);
+	}
+	
 }

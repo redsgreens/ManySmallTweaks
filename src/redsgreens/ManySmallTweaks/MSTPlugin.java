@@ -1,14 +1,9 @@
 package redsgreens.ManySmallTweaks;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
-
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -21,18 +16,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class MSTPlugin extends JavaPlugin {
-    private final MSTBlockListener blockListener = new MSTBlockListener(this);
-    private final MSTPlayerListener playerListener = new MSTPlayerListener(this);
-    private final MSTEntityListener entityListener = new MSTEntityListener(this);
-
     private WorldGuardPlugin WorldGuard = null;
 
     public String Name;
     public String Version;
 
     public MSTConfig Config = new MSTConfig(this);
-    
-    public Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_EXTENSION, Material.PISTON_MOVING_PIECE, Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON));
     
     public void onEnable() {
 
@@ -56,9 +45,21 @@ public class MSTPlugin extends JavaPlugin {
         
         // register our events
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(blockListener, this);
-        pm.registerEvents(playerListener, this);
-        pm.registerEvents(entityListener, this);
+        
+        if(Config.isTweakEnabledAnywhere(MSTName.ButtonsOnMoreBlocks)) pm.registerEvents(new MSTListenerButtonsOnMoreBlocks(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.FloatingHatch)) pm.registerEvents(new MSTListenerFloatingHatch(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.FloatingLadders)) pm.registerEvents(new MSTListenerFloatingLadders(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.FloatingLilyPads)) pm.registerEvents(new MSTListenerFloatingLilyPads(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.FloatingPaintings)) pm.registerEvents(new MSTListenerFloatingPaintings(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.FloatingRails)) pm.registerEvents(new MSTListenerFloatingRails(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.InfiniteCauldrons)) pm.registerEvents(new MSTListenerInfiniteCauldrons(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.KeepSaddleOnPigDeath)) pm.registerEvents(new MSTListenerKeepSaddleOnPigDeath(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.PigsReproduceQuick)) pm.registerEvents(new MSTListenerPigsReproduceQuick(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.ProjectileTriggers)) pm.registerEvents(new MSTListenerProjectileTriggers(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.RedstoneIgnitesNetherrack)) pm.registerEvents(new MSTListenerRedstoneIgnitesNetherrack(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.RedstoneIgnitesPumpkins)) pm.registerEvents(new MSTListenerRedstoneIgnitesPumpkins(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.PercentColorSheep)) pm.registerEvents(new MSTListenerPercentColorSheep(this), this);
+        if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
 
         System.out.println(this.Name + " v" + this.Version + " is enabled!" );
     }
@@ -103,29 +104,6 @@ public class MSTPlugin extends JavaPlugin {
 		}
 	}
 
-
-	public Block getBlockBehindLadder(Block ladder)
-	{
-		Integer data = ((Byte)ladder.getData()).intValue();
-
-		switch(data)
-		{
-		case 2: // facing east
-			return ladder.getRelative(BlockFace.WEST);
-			
-		case 3: // facing west
-			return ladder.getRelative(BlockFace.EAST);
-			
-		case 4: // facing north
-			return ladder.getRelative(BlockFace.SOUTH);
-
-		case 5: // facing south
-			return ladder.getRelative(BlockFace.NORTH);
-		}
-
-		return null;
-	}
-	
 	public ArrayList<Block> getCloseBlocks(Location loc)
 	{
 		ArrayList<Block> blocks = new ArrayList<Block>();
