@@ -63,7 +63,10 @@ public class MSTPlayerListener implements Listener {
 
 		if(Plugin.Config.isTweakEnabled(worldName, MSTName.InfiniteCauldrons))
 			handleInfiniteCauldrons(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial, event);
-		
+
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLilyPads))
+			handleFloatingLilyPads(block, blockMaterial, blockFace, player, itemInHand, itemInHandMaterial);
+
     }
     
     void handleFloatingLadders(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial)
@@ -232,7 +235,7 @@ public class MSTPlayerListener implements Listener {
 					button.setData((byte)5);
 			}
 			break;
-		default: // top or bottom was clicked, do nothing
+		default: // bottom was clicked, do nothing
 			return;			
 		}
 
@@ -273,4 +276,19 @@ public class MSTPlayerListener implements Listener {
     	}
 
     }
+    
+    void handleFloatingLilyPads(Block block, Material blockMaterial, BlockFace blockFace, Player player, ItemStack itemInHand, Material itemInHandMaterial)
+    {
+    	if(blockFace == BlockFace.UP && itemInHandMaterial == Material.WATER_LILY)
+    	{
+    		Block blockAbove = block.getRelative(BlockFace.UP);
+    		if(blockAbove.getType() == Material.AIR)
+    		{
+    			blockAbove.setType(Material.WATER_LILY);
+    			Plugin.takeItemInHand(player);
+    		}
+    	}
+    }
+
+
 }

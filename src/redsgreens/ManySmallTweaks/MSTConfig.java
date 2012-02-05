@@ -16,21 +16,7 @@ public class MSTConfig {
 
 	// determines if config values should be printed at startup
 	public Boolean VerboseStartup = false; 
-/*
-	// these will be set to true if any world has the feature enabled
-	public Boolean EnableFloatingLadders = false;
-	public Boolean EnableFloatingRails = false;
-	public Boolean EnableFloatingHatch = false;
-	public Boolean EnableButtonsOnMoreBlocks = false;
-	public Boolean EnableProjectileTriggers = false;
-	public Boolean EnablePercentSaddledPigs = false;
-    public Boolean EnablePercentColorSheep = false;
-    public Boolean EnableKeepSaddleOnPigDeath = false;
-    public Boolean EnableRedstoneIgnitesNetherrack = false;
-    public Boolean EnableInfiniteCauldrons = false;
-    public Boolean EnablePigsReproduceQuick = false;
-    public Boolean EnableRedstoneIgnitesPumpkins = false;
-*/	
+
     public MSTConfigWorld Defaults = new MSTConfigWorld();
     
     // specific config data for all worlds in config file 
@@ -113,6 +99,11 @@ public class MSTConfig {
 					Defaults.PigsReproduceQuick = (Boolean)defaults.get("PigsReproduceQuick");
 				if(defaults.containsKey("RedstoneIgnitesPumpkins"))
 					Defaults.RedstoneIgnitesPumpkins = (Boolean)defaults.get("RedstoneIgnitesPumpkins");
+				if(defaults.containsKey("FloatingLilyPads"))
+					Defaults.FloatingLilyPads = (Boolean)defaults.get("FloatingLilyPads");
+				if(defaults.containsKey("FloatingPaintings"))
+					Defaults.FloatingPaintings = (Boolean)defaults.get("FloatingPaintings");
+
 
 				if(VerboseStartup)
 					PrintSettings("Defaults", Defaults);
@@ -142,7 +133,9 @@ public class MSTConfig {
 					    Boolean infiniteCauldrons = false;
 					    Boolean pigsReproduceQuick = false;
 					    Boolean redstoneIgnitesPumpkins = false;
-						
+					    Boolean floatingLilyPads = false;
+					    Boolean floatingPaintings = false;
+
 						HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
 						
 						// load each field
@@ -205,9 +198,20 @@ public class MSTConfig {
 							redstoneIgnitesPumpkins = (Boolean)world.get("RedstoneIgnitesPumpkins");
 						else
 							redstoneIgnitesPumpkins = Defaults.RedstoneIgnitesPumpkins;
+
+						if(world.containsKey("FloatingLilyPads"))
+							floatingLilyPads = (Boolean)world.get("FloatingLilyPads");
+						else
+							floatingLilyPads = Defaults.FloatingLilyPads;
+
+						if(world.containsKey("FloatingPaintings"))
+							floatingPaintings = (Boolean)world.get("FloatingPaintings");
+						else
+							floatingPaintings = Defaults.FloatingPaintings;
+						
 						
 						// add world to config hashmap
-						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins); 
+						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings); 
 						Worlds.put(worldName, config);
 						
 						if(VerboseStartup)
@@ -223,32 +227,7 @@ public class MSTConfig {
 		{
 			e.printStackTrace();
 		}
-/*
-		// temporarily add the defaults to the worlds list
-		Worlds.put("DEFAULTS", Defaults);
-		
-		// loop through loaded worlds and set "enable" flags
-		Iterator<String> itr = Worlds.keySet().iterator();
-		while(itr.hasNext())
-		{
-			String worldName = itr.next();
-			MSTConfigWorld config = Worlds.get(worldName);
-			if(config.FloatingLadders) EnableFloatingLadders = true;
-			if(config.FloatingRails) EnableFloatingRails = true;
-			if(config.FloatingHatch) EnableFloatingHatch = true;
-			if(config.ButtonsOnMoreBlocks) EnableButtonsOnMoreBlocks = true;
-			if(config.ProjectileTriggers) EnableProjectileTriggers = true;
-			if(config.PercentSaddledPigs > 0) EnablePercentSaddledPigs = true;
-			if(config.PercentColorSheep > 0) EnablePercentColorSheep = true;
-			if(config.KeepSaddleOnPigDeath) EnableKeepSaddleOnPigDeath = true;
-			if(config.RedstoneIgnitesNetherrack) EnableRedstoneIgnitesNetherrack = true;
-			if(config.InfiniteCauldrons) EnableInfiniteCauldrons = true;
-			if(config.RedstoneIgnitesPumpkins) EnableRedstoneIgnitesPumpkins = true; 
-		}
-		
-		// remove defaults from worlds list after testing for enabled options
-		Worlds.remove("DEFAULTS");
-*/		
+
 	}
 	
 	public Boolean isTweakEnabled(String worldName, MSTName tweak)
@@ -304,6 +283,12 @@ public class MSTConfig {
 		case RedstoneIgnitesPumpkins:
 			return config.RedstoneIgnitesPumpkins;
 			
+		case FloatingLilyPads:
+			return config.FloatingLilyPads;
+			
+		case FloatingPaintings:
+			return config.FloatingPaintings;
+			
 		default: 
 			return false;
 		}
@@ -347,6 +332,8 @@ public class MSTConfig {
 		System.out.println("ManySmallTweaks: " + name + ".PigsReproduceQuick=" + config.PigsReproduceQuick);
 		System.out.println("ManySmallTweaks: " + name + ".PercentSaddledPigs=" + config.PercentSaddledPigs);
 		System.out.println("ManySmallTweaks: " + name + ".PercentColorSheep=" + config.PercentColorSheep);
+//		System.out.println("ManySmallTweaks: " + name + ".FloatingLilyPads=" + config.FloatingLilyPads);
+		System.out.println("ManySmallTweaks: " + name + ".FloatingPaintings=" + config.FloatingPaintings);
 
 	}
 }

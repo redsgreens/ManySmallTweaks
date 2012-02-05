@@ -12,6 +12,8 @@ public enum MSTName {
 	RedstoneIgnitesNetherrack,
 	InfiniteCauldrons,
 	PigsReproduceQuick,
-	RedstoneIgnitesPumpkins
+	RedstoneIgnitesPumpkins,
+	FloatingLilyPads,
+	FloatingPaintings
 	
 }

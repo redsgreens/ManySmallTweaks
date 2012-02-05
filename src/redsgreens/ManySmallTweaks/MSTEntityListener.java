@@ -18,6 +18,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.painting.PaintingBreakEvent;
+import org.bukkit.event.painting.PaintingBreakEvent.RemoveCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Button;
 import org.bukkit.material.Lever;
@@ -200,6 +202,14 @@ public class MSTEntityListener implements Listener {
 	    		}
     		}
     	}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPaintingBreak(PaintingBreakEvent event)
+	{
+		if(event.getCause() != RemoveCause.PHYSICS || event.isCancelled()) return;
+		if(Plugin.Config.isTweakEnabled(event.getPainting().getWorld().getName(), MSTName.FloatingPaintings))
+			event.setCancelled(true);
 	}
 
 }

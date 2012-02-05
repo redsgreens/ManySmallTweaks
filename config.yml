@@ -13,6 +13,7 @@ Defaults:
     PercentSaddledPigs: 0
     PercentColorSheep: 0
     RedstoneIgnitesPumpkins: No
+    FloatingPaintings: No
 
 Worlds:
     change_me:
@@ -28,4 +29,4 @@ Worlds:
         PercentSaddledPigs: 0
         PercentColorSheep: 0
         RedstoneIgnitesPumpkins: No
-        
+        FloatingPaintings: No

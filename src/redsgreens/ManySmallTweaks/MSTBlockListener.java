@@ -107,10 +107,16 @@ public class MSTBlockListener implements Listener {
 			    		bs.update();
 					}	    		
 				break;
+
+			case WATER_LILY:
+				if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLilyPads))
+					event.setCancelled(true);
+				break;
+			
 		}
 
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockBreak(BlockBreakEvent event)
 	{

@@ -1,4 +1,5 @@
 ManySmallTweaks allows Bukkit admins to enable several different tweaks on a per-world basis. 
 The tweaks currently include: FloatingLadders, FloatingRails, FloatingHatch, ButtonsOnMoreBlocks, 
 RedstoneIgnitesNetherrack, PercentColorSheep, PercentSaddledPigs, KeepSaddleOnPigDeath, 
-InfiniteCauldrons, ProjectileTriggers, PigsReproduceQuick, RedstoneIgnitesPumpkins
+InfiniteCauldrons, ProjectileTriggers, PigsReproduceQuick, RedstoneIgnitesPumpkins,
+FloatingPaintings

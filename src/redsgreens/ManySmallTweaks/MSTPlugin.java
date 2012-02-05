@@ -32,7 +32,7 @@ public class MSTPlugin extends JavaPlugin {
 
     public MSTConfig Config = new MSTConfig(this);
     
-    public Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE));
+    public Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_EXTENSION, Material.PISTON_MOVING_PIECE, Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON));
     
     public void onEnable() {
 
