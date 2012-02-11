@@ -28,8 +28,8 @@ public class MSTListenerFloatingLilyPads implements Listener {
 
 		Block block = event.getBlock();
 		
-		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingLilyPads))
-			if(block.getType() == Material.WATER_LILY)
+		if(block.getType() == Material.WATER_LILY)
+			if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingLilyPads))
 				event.setCancelled(true);
 		
 	}

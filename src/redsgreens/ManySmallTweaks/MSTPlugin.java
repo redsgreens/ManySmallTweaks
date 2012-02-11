@@ -61,6 +61,9 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.PercentColorSheep)) pm.registerEvents(new MSTListenerPercentColorSheep(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
 
+        // comment this out for release
+//        pm.registerEvents(new MSTListenerTest(this), this);
+        
         System.out.println(this.Name + " v" + this.Version + " is enabled!" );
     }
 

@@ -37,12 +37,13 @@ public class MSTListenerFloatingRails implements Listener {
 		if(event.isCancelled()) return;
 
 		Block block = event.getBlock();
-		
 		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingRails))
 		{
 			Material material = block.getType();
 			
-			if(material == Material.RAILS || material == Material.DETECTOR_RAIL)
+			if(event.getChangedType() == Material.SNOW)
+				event.setCancelled(true);
+			else if(material == Material.RAILS || material == Material.DETECTOR_RAIL)
 			{
 				if(AllowedRailMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
 						event.setCancelled(true);
