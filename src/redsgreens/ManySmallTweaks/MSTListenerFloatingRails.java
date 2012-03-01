@@ -23,7 +23,7 @@ public class MSTListenerFloatingRails implements Listener {
 
 	private MSTPlugin Plugin;
 
-	Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_EXTENSION, Material.PISTON_MOVING_PIECE, Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON));
+	Set<Material> AllowedRailMaterials = new HashSet<Material>(Arrays.asList(Material.AIR, Material.GLASS, Material.GLOWSTONE, Material.THIN_GLASS, Material.IRON_FENCE, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_EXTENSION, Material.PISTON_MOVING_PIECE, Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.STEP, Material.COBBLESTONE_STAIRS, Material.BRICK_STAIRS, Material.WOOD_STAIRS, Material.SMOOTH_STAIRS, Material.NETHER_BRICK_STAIRS));
 
 	public MSTListenerFloatingRails(MSTPlugin plugin)
 	{
@@ -41,7 +41,7 @@ public class MSTListenerFloatingRails implements Listener {
 		{
 			Material material = block.getType();
 			
-			if(event.getChangedType() == Material.SNOW)
+			if(event.getChangedType() == Material.SNOW && (material == Material.RAILS || material == Material.DETECTOR_RAIL || material == Material.POWERED_RAIL))
 				event.setCancelled(true);
 			else if(material == Material.RAILS || material == Material.DETECTOR_RAIL)
 			{
@@ -50,8 +50,11 @@ public class MSTListenerFloatingRails implements Listener {
 			}
 			else if(material == Material.POWERED_RAIL)
 			{
+System.out.println(block.getRelative(BlockFace.DOWN).getType());
+				
 				if(AllowedRailMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
 				{
+System.out.println("2");
 					event.setCancelled(true);
 
 					BlockState bs = block.getState();
