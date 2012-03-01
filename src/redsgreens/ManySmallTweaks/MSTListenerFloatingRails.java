@@ -37,6 +37,7 @@ public class MSTListenerFloatingRails implements Listener {
 		if(event.isCancelled()) return;
 
 		Block block = event.getBlock();
+
 		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingRails))
 		{
 			Material material = block.getType();
@@ -50,11 +51,9 @@ public class MSTListenerFloatingRails implements Listener {
 			}
 			else if(material == Material.POWERED_RAIL)
 			{
-System.out.println(block.getRelative(BlockFace.DOWN).getType());
 				
 				if(AllowedRailMaterials.contains(block.getRelative(BlockFace.DOWN).getType()))
 				{
-System.out.println("2");
 					event.setCancelled(true);
 
 					BlockState bs = block.getState();
