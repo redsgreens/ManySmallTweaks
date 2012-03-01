@@ -5,8 +5,8 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -52,7 +52,7 @@ public class MSTListenerPigsReproduceQuick implements Listener {
 
     					for(int n=0; n<numSiblings; n++)
     					{
-    						Pig bp = (Pig) world.spawnCreature(loc, CreatureType.PIG);
+    						Pig bp = (Pig) world.spawnCreature(loc, EntityType.PIG);
     						bp.setAge(-24000);
     					}
 
