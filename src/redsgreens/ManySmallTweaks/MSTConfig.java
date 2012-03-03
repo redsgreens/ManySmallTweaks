@@ -38,6 +38,7 @@ public class MSTConfig {
 		booleanWorlds.put(MSTName.ProjectileTriggers, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.RedstoneIgnitesNetherrack, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.RedstoneIgnitesPumpkins, new HashMap<String, Boolean>());
+		booleanWorlds.put(MSTName.MineCobwebsWithShears, new HashMap<String, Boolean>());
 		doubleWorlds.put(MSTName.PercentColorSheep, new HashMap<String, Double>());
 		doubleWorlds.put(MSTName.PercentSaddledPigs, new HashMap<String, Double>());
 
@@ -122,6 +123,8 @@ public class MSTConfig {
 					Defaults.FloatingLilyPads = (Boolean)defaults.get("FloatingLilyPads");
 				if(defaults.containsKey("FloatingPaintings"))
 					Defaults.FloatingPaintings = (Boolean)defaults.get("FloatingPaintings");
+				if(defaults.containsKey("MineCobwebsWithShears"))
+					Defaults.MineCobwebsWithShears = (Boolean)defaults.get("MineCobwebsWithShears");
 
 			}
 
@@ -152,6 +155,7 @@ public class MSTConfig {
 					    Boolean redstoneIgnitesPumpkins = false;
 					    Boolean floatingLilyPads = false;
 					    Boolean floatingPaintings = false;
+					    Boolean mineCobwebsWithShears = false;
 
 						HashMap<String, Object> world = (HashMap<String, Object>)worlds.get(worldName);
 						
@@ -225,9 +229,14 @@ public class MSTConfig {
 							floatingPaintings = (Boolean)world.get("FloatingPaintings");
 						else
 							floatingPaintings = Defaults.FloatingPaintings;
-						
+
+						if(world.containsKey("MineCobwebsWithShears"))
+							mineCobwebsWithShears = (Boolean)world.get("MineCobwebsWithShears");
+						else
+							mineCobwebsWithShears = Defaults.MineCobwebsWithShears;
+
 						// add world to config hashmap
-						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings); 
+						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings, mineCobwebsWithShears); 
 						addWorld(worldName, config);
 
 					}
@@ -277,6 +286,7 @@ public class MSTConfig {
 		System.out.println("ManySmallTweaks: " + name + ".ProjectileTriggers=" + config.ProjectileTriggers);
 		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesNetherrack=" + config.RedstoneIgnitesNetherrack);
 		System.out.println("ManySmallTweaks: " + name + ".RedstoneIgnitesPumpkins=" + config.RedstoneIgnitesPumpkins);
+		System.out.println("ManySmallTweaks: " + name + ".MineCobwebsWithShears=" + config.MineCobwebsWithShears);
 
 	}
 
@@ -295,6 +305,7 @@ public class MSTConfig {
 		booleanWorlds.get(MSTName.ProjectileTriggers).put(worldName, world.ProjectileTriggers);
 		booleanWorlds.get(MSTName.RedstoneIgnitesNetherrack).put(worldName, world.RedstoneIgnitesNetherrack);
 		booleanWorlds.get(MSTName.RedstoneIgnitesPumpkins).put(worldName, world.RedstoneIgnitesPumpkins);
+		booleanWorlds.get(MSTName.MineCobwebsWithShears).put(worldName, world.MineCobwebsWithShears);
 		doubleWorlds.get(MSTName.PercentColorSheep).put(worldName, world.PercentColorSheep);
 		doubleWorlds.get(MSTName.PercentSaddledPigs).put(worldName, world.PercentSaddledPigs);
 		

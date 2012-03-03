@@ -60,7 +60,8 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.RedstoneIgnitesPumpkins)) pm.registerEvents(new MSTListenerRedstoneIgnitesPumpkins(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.PercentColorSheep)) pm.registerEvents(new MSTListenerPercentColorSheep(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
-
+        if(Config.isTweakEnabledAnywhere(MSTName.MineCobwebsWithShears)) pm.registerEvents(new MSTListenerMineCobwebsWithShears(this), this);
+        
         // comment this out for release
 //        pm.registerEvents(new MSTListenerTest(this), this);
         

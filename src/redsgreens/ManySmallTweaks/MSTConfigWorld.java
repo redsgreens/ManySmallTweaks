@@ -16,10 +16,12 @@ public class MSTConfigWorld {
     public Boolean RedstoneIgnitesPumpkins = false;
     public Boolean FloatingLilyPads = false;
     public Boolean FloatingPaintings = false;
+    public Boolean MineCobwebsWithShears = false;
 
 	public MSTConfigWorld(Boolean floatingLadders, Boolean floatingRails, Boolean floatingHatch, Boolean buttonsOnMoreBlocks, 
 			Boolean projectileTriggers, Double percentSaddledPigs, Double percentColorSheep, Boolean keepSaddleOnPigDeath, Boolean redstoneIgnitesNetherrack,
-			Boolean infiniteCauldrons, Boolean pigsReproduceQuick, Boolean redstoneIgnitesPumpkins, Boolean floatingLilyPads, Boolean floatingPaintings)
+			Boolean infiniteCauldrons, Boolean pigsReproduceQuick, Boolean redstoneIgnitesPumpkins, Boolean floatingLilyPads, Boolean floatingPaintings,
+			Boolean mineCobwebsWithShears)
 	{
 		FloatingLadders = floatingLadders;
 		FloatingRails = floatingRails;
@@ -35,6 +37,7 @@ public class MSTConfigWorld {
 		RedstoneIgnitesPumpkins = redstoneIgnitesPumpkins;
 		FloatingLilyPads = floatingLilyPads;
 		FloatingPaintings = floatingPaintings;
+		MineCobwebsWithShears = mineCobwebsWithShears;
 	}
 	
 	public MSTConfigWorld()

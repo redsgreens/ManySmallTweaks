@@ -14,6 +14,7 @@ public enum MSTName {
 	PigsReproduceQuick,
 	RedstoneIgnitesPumpkins,
 	FloatingLilyPads,
-	FloatingPaintings
+	FloatingPaintings,
+	MineCobwebsWithShears
 	
 }
