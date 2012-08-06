@@ -62,6 +62,8 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.MineCobwebsWithShears)) pm.registerEvents(new MSTListenerMineCobwebsWithShears(this), this);
         
+        pm.registerEvents(new MSTListenerDaylightSensor(this), this);
+        
         // comment this out for release
 //        pm.registerEvents(new MSTListenerTest(this), this);
         

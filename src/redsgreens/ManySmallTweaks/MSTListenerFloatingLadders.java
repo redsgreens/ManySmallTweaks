@@ -1,7 +1,6 @@
 package redsgreens.ManySmallTweaks;
 
 import java.util.ArrayList;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -52,7 +52,7 @@ public class MSTListenerFloatingLadders implements Listener {
 
 				behindLadder.setData(data);
 			}
-			
+
 			event.setCancelled(true);
 		}
 		
@@ -73,6 +73,7 @@ public class MSTListenerFloatingLadders implements Listener {
 			if(material == Material.LADDER)
 			{
 				Block behindLadder = getBlockBehindLadder(block);
+
 				if(behindLadder.getType() == Material.LADDER)
 				{
 					DeletedLadders.add(behindLadder);
@@ -141,7 +142,33 @@ public class MSTListenerFloatingLadders implements Listener {
 			Plugin.takeItemInHand(player);
 		}
     }
-    
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onBlockPistonExtend(BlockPistonExtendEvent event)
+	{
+		if(event.isCancelled()) return;
+
+		String worldName = event.getBlock().getWorld().getName();
+		
+		if(Plugin.Config.isTweakEnabled(worldName, MSTName.FloatingLadders))
+		{
+			Block nextBlock = event.getBlock().getRelative(event.getDirection(), event.getLength()+1);
+
+			if(nextBlock.getType() == Material.LADDER)
+			{
+				Block behindLadder = getBlockBehindLadder(nextBlock);
+
+				if(behindLadder != null && behindLadder.getType() == Material.LADDER)
+					DeletedLadders.add(behindLadder);
+					behindLadder.setType(Material.AIR);
+					DeletedLadders.remove(behindLadder);
+
+			}
+
+
+		}
+	}
+	
 	Block getBlockBehindLadder(Block ladder)
 	{
 		Integer data = ((Byte)ladder.getData()).intValue();

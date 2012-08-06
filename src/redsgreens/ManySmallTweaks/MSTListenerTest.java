@@ -1,36 +1,69 @@
 package redsgreens.ManySmallTweaks;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import net.minecraft.server.EntityTNTPrimed;
-
-import org.bukkit.Location;
+import java.util.Random;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class MSTListenerTest implements Listener {
 
 	private MSTPlugin Plugin;
 
+	Random rand = new Random();
+	
 	public MSTListenerTest(MSTPlugin plugin)
 	{
 		Plugin = plugin;
+		
 	}
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+/*	
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onPlayerInteract(PlayerInteractEvent event)
+  {
+  	// return if the event is cancelled
+  	if(event.isCancelled()) return;
+
+		// return if the event is not a right-click-block action
+		Action action = event.getAction();
+		if(action == Action.RIGHT_CLICK_BLOCK) 
+		{
+
+			Block block = event.getClickedBlock();
+
+			Player player = event.getPlayer();
+			
+			// return if they can't build here
+			if(!Plugin.canBuild(player, block)) return;
+
+			Material blockMaterial = block.getType();
+
+			if(blockMaterial == Material.LEVER)
+			{
+				event.setCancelled(true);
+				System.out.println("Cancelled!");
+				BlockState blockState = block.getState(); 
+				Lever lever = (Lever)(blockState.getData()); 
+				lever.setPowered(!lever.isPowered()); 
+				blockState.setData(lever); 
+				blockState.update();
+			}
+	
+		}
+
+  }
+//    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
     	// return if the event is cancelled
@@ -62,13 +95,119 @@ public class MSTListenerTest implements Listener {
            
 		}
     }
+*/
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onBlockPhysics(BlockPhysicsEvent event)
+	{
+		if(event.isCancelled()) return;
+		if(event.getBlock().getType() == Material.VINE)
+			event.setCancelled(true);
+	}
+
+	  @EventHandler(priority = EventPriority.HIGHEST)
+	  public void onPlayerInteract(PlayerInteractEvent event)
+	  {
+		  	// return if the event is cancelled
+		  	if(event.isCancelled()) return;
+
+				// return if the event is not a right-click-block action
+				if(event.getAction() == Action.RIGHT_CLICK_BLOCK) 
+				{
+
+					Block block = event.getClickedBlock();
+
+					Player player = event.getPlayer();
+					
+					// return if they can't build here
+					if(!Plugin.canBuild(player, block)) return;
+
+					Material blockMaterial = block.getType();
+
+					if(blockMaterial == Material.FENCE && event.getPlayer().getItemInHand().getType() == Material.VINE)
+					{
+						event.setCancelled(true);
+						Block vineBlock = block.getRelative(event.getBlockFace());
+						vineBlock.setType(Material.VINE);
+
+						Byte b = 0;
+						
+						switch(event.getBlockFace())
+						{
+						case WEST:
+							b = 4;
+							break;
+							
+						case EAST:
+							b = 1;
+							break;
+							
+						case NORTH:
+							b = 8;
+							break;
+							
+						case SOUTH:
+							b = 2;
+							break;
+							
+						default:
+						}
+
+						vineBlock.setData(b);
+
+					}
+			
+				}
 
 
-    
+	  }
 	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerInteractEntity(PlayerInteractEntityEvent event)
+	{
+		Player p = event.getPlayer();
+		
+		if(p.getName().equalsIgnoreCase("redsgreens"))
+		{
+			ItemStack i = p.getItemInHand();
+			if(i.getType() == Material.BOOK)
+			{
+				Entity e = event.getRightClicked();
+				if(e instanceof Villager)
+				{
+					Villager v = (Villager)e;
+					Integer x = rand.nextInt(5);
+					
+					switch(x)
+					{
+					case 1:
+						v.setProfession(Profession.BLACKSMITH);
+						break;
+					case 2:
+						v.setProfession(Profession.BUTCHER);
+						break;
+					case 3:
+						v.setProfession(Profession.FARMER);
+						break;
+					case 4:
+						v.setProfession(Profession.LIBRARIAN);
+						break;
+					case 5:
+						v.setProfession(Profession.PRIEST);
+						break;
+					default:
+						
+					}
+				}
+			}
+		}
+	}
+    
+/*	
 //	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPhysics(BlockPhysicsEvent event)
 	{
+	
 		Block block = event.getBlock();
 		if(block.getType() == Material.WATER_LILY)
 		{
@@ -175,13 +314,6 @@ public class MSTListenerTest implements Listener {
 		
 		return blocks;
 	}
+*/
 	
-//	@EventHandler(priority = EventPriority.NORMAL)
-	public void onBlockPlace(BlockPlaceEvent event)
-	{
-		Block block = event.getBlock();
-		
-		if(block.getType() == Material.TNT)
-			System.out.println("TNT: " + block.getLocation());
-	}
 }
