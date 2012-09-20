@@ -28,9 +28,15 @@ public class MSTListenerFloatingHatch implements Listener {
 
 		Block block = event.getBlock();
 		
-		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingHatch))
-			if(block.getType() == Material.TRAP_DOOR)
-				event.setCancelled(true);
+		if(block.getType() == Material.TRAP_DOOR)
+			if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingHatch))
+			{
+				Block blockBehind = getBlockBehindHatch(block); 
+
+				if(blockBehind != null)
+					if(Plugin.isTransparent(blockBehind))
+						event.setCancelled(true);
+			}
 		
 	}
 	
@@ -47,7 +53,7 @@ public class MSTListenerFloatingHatch implements Listener {
 
 		Block block = event.getClickedBlock();
 
-		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.ButtonsOnMoreBlocks))
+		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.FloatingHatch))
 		{
 			Player player = event.getPlayer();
 			
@@ -55,14 +61,14 @@ public class MSTListenerFloatingHatch implements Listener {
 			if(!Plugin.canBuild(player, block)) return;
 
 			Material itemInHandMaterial = player.getItemInHand().getType();
-		
+
 	    	// return if item in hand is not a hatch
 	    	if(itemInHandMaterial != Material.TRAP_DOOR) return;
 
 			Material blockMaterial = block.getType();
 			BlockFace blockFace = event.getBlockFace();
 
-	    	Block b;
+			Block b;
 	    	if(blockMaterial == Material.LADDER)
 	    		b = block;
 	    	else
@@ -102,5 +108,32 @@ public class MSTListenerFloatingHatch implements Listener {
 	    	Plugin.takeItemInHand(player);
 
 		}
+    }
+    
+    Block getBlockBehindHatch(Block block)
+    {
+    	
+    	switch(block.getData())
+    	{
+    		case 4: 
+    		case 0: return block.getRelative(BlockFace.WEST);
+    		
+    		case 5:
+    		case 1: return block.getRelative(BlockFace.EAST);
+    		
+    		case 6:
+    		case 2: return block.getRelative(BlockFace.SOUTH);
+    		
+    		case 7:
+    		case 3: return block.getRelative(BlockFace.NORTH);
+    		default: 
+//    			System.out.println(block.getData());
+//   			System.out.println("NORTH:" + block.getRelative(BlockFace.NORTH).getType());
+//    			System.out.println("SOUTH:" + block.getRelative(BlockFace.SOUTH).getType());
+//    			System.out.println("EAST:" + block.getRelative(BlockFace.EAST).getType());
+//    			System.out.println("WEST:" + block.getRelative(BlockFace.WEST).getType());
+    			return null;
+    	}
+    	
     }
 }

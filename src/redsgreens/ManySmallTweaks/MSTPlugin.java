@@ -1,9 +1,13 @@
 package redsgreens.ManySmallTweaks;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -62,7 +66,7 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.MineCobwebsWithShears)) pm.registerEvents(new MSTListenerMineCobwebsWithShears(this), this);
         
-        pm.registerEvents(new MSTListenerDaylightSensor(this), this);
+//        pm.registerEvents(new MSTListenerDaylightSensor(this), this);
         
         // comment this out for release
 //        pm.registerEvents(new MSTListenerTest(this), this);
@@ -168,4 +172,87 @@ public class MSTPlugin extends JavaPlugin {
         System.out.println(this.Name + " v" + this.Version + " is disabled." );
     }
 
+    Set<Material> transparentMaterials = new HashSet<Material>() {
+    	private static final long serialVersionUID = 1L;
+    	{
+    		add(Material.AIR);
+    		add(Material.ICE);
+    		add(Material.GLASS);
+    		add(Material.TNT);
+    		add(Material.MOB_SPAWNER);
+    		add(Material.LEAVES);
+    		add(Material.PISTON_BASE);
+    		add(Material.PISTON_EXTENSION);
+    		add(Material.PISTON_MOVING_PIECE);
+    		add(Material.PISTON_STICKY_BASE);
+    		add(Material.GLOWSTONE);
+    		add(Material.CHEST);
+    		add(Material.SOIL);
+    		add(Material.STEP);
+    		add(Material.DOUBLE_STEP);
+    		add(Material.WOOD_STEP);
+    		add(Material.WOOD_DOUBLE_STEP);
+    		add(Material.WOOD_STAIRS);
+    		add(Material.COBBLESTONE_STAIRS);
+    		add(Material.BRICK_STAIRS);
+    		add(Material.SMOOTH_STAIRS);
+    		add(Material.NETHER_BRICK_STAIRS);
+    		add(Material.LADDER);
+    		add(Material.FENCE);
+    		add(Material.FENCE_GATE);
+    		add(Material.IRON_FENCE);
+    		add(Material.THIN_GLASS);
+    		add(Material.CAKE_BLOCK);
+    		add(Material.BED_BLOCK);
+    		add(Material.WOODEN_DOOR);
+    		add(Material.IRON_DOOR_BLOCK);
+    		add(Material.REDSTONE_WIRE);
+    		add(Material.REDSTONE_TORCH_OFF);
+    		add(Material.REDSTONE_TORCH_ON);
+    		add(Material.DIODE_BLOCK_OFF);
+    		add(Material.DIODE_BLOCK_ON);
+    		add(Material.TRAP_DOOR);
+    		add(Material.RAILS);
+    		add(Material.POWERED_RAIL);
+    		add(Material.DETECTOR_RAIL);
+/*
+    		add(Material.LEVER);
+    		add(Material.WOOD_PLATE);
+    		add(Material.STONE_PLATE);
+    		add(Material.STONE_BUTTON);
+*/
+    		add(Material.ENCHANTMENT_TABLE);
+    		add(Material.SNOW_BLOCK);
+    		add(Material.TORCH);
+    		add(Material.SIGN_POST);
+    		add(Material.WALL_SIGN);
+    		add(Material.FIRE);
+    		add(Material.PORTAL);
+    		add(Material.ENDER_PORTAL);
+    		add(Material.ENDER_CHEST);
+    		add(Material.CACTUS);
+    		add(Material.SUGAR_CANE_BLOCK);
+    		add(Material.CROPS);
+    		add(Material.RED_ROSE);
+    		add(Material.YELLOW_FLOWER);
+    		add(Material.RED_MUSHROOM);
+    		add(Material.BROWN_MUSHROOM);
+    		add(Material.SAPLING);
+    		add(Material.GRASS);
+    		add(Material.WATER);
+    		add(Material.LAVA);
+    		add(Material.STATIONARY_LAVA);
+    		add(Material.STATIONARY_WATER);
+    		add(Material.WEB);
+    		add(Material.LONG_GRASS);
+    		add(Material.DEAD_BUSH);
+    		add(Material.NETHER_FENCE);
+    		add(Material.BREWING_STAND);
+    		add(Material.DRAGON_EGG);
+    	}};
+    
+    	public Boolean isTransparent(Block block)
+    	{
+    		return transparentMaterials.contains(block.getType());
+    	}
 }

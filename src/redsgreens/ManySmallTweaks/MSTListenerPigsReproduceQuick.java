@@ -52,7 +52,7 @@ public class MSTListenerPigsReproduceQuick implements Listener {
 
     					for(int n=0; n<numSiblings; n++)
     					{
-    						Pig bp = (Pig) world.spawnCreature(loc, EntityType.PIG);
+    						Pig bp = (Pig) world.spawnEntity(loc, EntityType.PIG);
     						bp.setAge(-24000);
     					}
 

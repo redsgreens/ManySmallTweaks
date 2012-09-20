@@ -31,24 +31,22 @@ public class MSTListenerRedstoneIgnitesNetherrack implements Listener {
 		Material material = block.getType();
 		String worldName = block.getWorld().getName();
 		
-		if(material == Material.NETHERRACK && Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
-		{
-			if(event.getNewCurrent() > 0)
-			{
-				// set block on fire
-				Block blockAbove = block.getRelative(BlockFace.UP);
-				if(blockAbove.getType() == Material.AIR)
-					blockAbove.setType(Material.FIRE);
-			}
-			else
-			{
-				// extinguish block
-				Block blockAbove = block.getRelative(BlockFace.UP);
-				if(blockAbove.getType() == Material.FIRE)
-					blockAbove.setType(Material.AIR);
-			}
-			
-		}
+		if(material == Material.NETHERRACK)
+			if(Plugin.Config.isTweakEnabled(worldName, MSTName.RedstoneIgnitesNetherrack))
+				if(event.getNewCurrent() > 0)
+				{
+					// set block on fire
+					Block blockAbove = block.getRelative(BlockFace.UP);
+					if(blockAbove.getType() == Material.AIR)
+						blockAbove.setType(Material.FIRE);
+				}
+				else
+				{
+					// extinguish block
+					Block blockAbove = block.getRelative(BlockFace.UP);
+					if(blockAbove.getType() == Material.FIRE)
+						blockAbove.setType(Material.AIR);
+				}
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)

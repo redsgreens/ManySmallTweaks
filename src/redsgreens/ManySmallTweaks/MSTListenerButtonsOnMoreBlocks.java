@@ -1,8 +1,8 @@
 package redsgreens.ManySmallTweaks;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,9 +17,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class MSTListenerButtonsOnMoreBlocks implements Listener {
 
+	class dPoint
+	{
+		public double r;
+		public double s;
+		
+		dPoint(double sr, double ss)
+		{
+			r = sr;
+			s = ss;
+		}
+	}
+	
 	private MSTPlugin Plugin;
 
-	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.TNT, Material.MOB_SPAWNER, Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.PISTON_MOVING_PIECE, Material.SOIL, Material.WOODEN_DOOR, Material.WOOD_DOOR, Material.IRON_DOOR_BLOCK, Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
+	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
 
 	public MSTListenerButtonsOnMoreBlocks(MSTPlugin plugin)
 	{
@@ -54,17 +66,35 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event)
     {
     	// return if the event is cancelled
-    	if(event.isCancelled()) return;
+//    	if(event.isCancelled()) return;
 
+    	Block block;
+    	BlockFace blockFace;    	
+    	Player player = event.getPlayer();
+    	
 		// return if the event is not a right-click-block action
 		Action action = event.getAction();
-		if(action != Action.RIGHT_CLICK_BLOCK) return;
-
-		Block block = event.getClickedBlock();
+		if(action == Action.RIGHT_CLICK_BLOCK)
+		{
+			block = event.getClickedBlock();
+			blockFace = event.getBlockFace();
+		}
+		else if(action == Action.RIGHT_CLICK_AIR)
+		{
+			block = player.getTargetBlock(null, 5);
+			blockFace = getClosestBlockFace(block, player);
+			if(block == null)
+				return;
+			else if(block.getType() == Material.AIR)
+				return;
+			else if(block.getLocation().distance(player.getLocation()) > 4)
+				return;
+		}
+		else return;
 		
 		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.ButtonsOnMoreBlocks))
 		{
-			Player player = event.getPlayer();
+			
 			
 			// return if they can't build here
 			if(!Plugin.canBuild(player, block)) return;
@@ -72,9 +102,10 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 			Material blockMaterial = block.getType();
 
 			// return if the block is not allowed
-			if(!AllowedButtonMaterials.contains(blockMaterial)) return;
+			if(!Plugin.isTransparent(block) && !AllowedButtonMaterials.contains(blockMaterial)) return;
+			if(blockMaterial == Material.STONE_BUTTON || blockMaterial == Material.LEVER) return;
 
-			BlockFace blockFace = event.getBlockFace();
+			
 			ItemStack itemInHand = player.getItemInHand();
 			Material itemInHandMaterial = itemInHand.getType();
 
@@ -127,10 +158,19 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 						button.setData((byte)5);
 				}
 				break;
+			case DOWN:
+				if(itemInHandMaterial == Material.STONE_BUTTON) return; // buttons can't go on the bottom
+				button = block.getRelative(BlockFace.DOWN); 
+				if(button.getType() == Material.AIR)
+				{
+					button.setType(itemInHandMaterial);
+					if(itemInHandMaterial == Material.LEVER)
+						button.setData((byte)7);
+				}
+				break;
 			default: // bottom was clicked, do nothing
 				return;			
 			}
-
 			Plugin.takeItemInHand(player);
 
 			event.setCancelled(true);
@@ -138,4 +178,71 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 		}
 		
     }
+    
+    BlockFace getClosestBlockFace(Block block, Player player)
+    {
+/*
+    	System.out.println("Block.location=" + block.getLocation());
+    	System.out.println("Player.location=" + player.getLocation());
+    	System.out.println();
+*/    	
+
+    	// find closest blockface in vertical plane
+    	dPoint vPoint = new dPoint(player.getLocation().getX() - block.getX(), player.getLocation().getY() - block.getY());
+    	if(Math.abs(vPoint.r) > Math.abs(vPoint.s))
+    	{
+    		vPoint.s = vPoint.s / Math.abs(vPoint.r);
+    		vPoint.r = vPoint.r / Math.abs(vPoint.r);
+    	}
+    	else
+    	{
+    		vPoint.r = vPoint.r / Math.abs(vPoint.s);
+    		vPoint.s = vPoint.s / Math.abs(vPoint.s);
+    	}
+    	
+    	if(pointInTriangle(vPoint, new dPoint(-10,-10), new dPoint(0,0), new dPoint(10,-10)))
+    		return BlockFace.DOWN;
+    	else if(pointInTriangle(vPoint, new dPoint(-10,10), new dPoint(0,0), new dPoint(10,10)))
+    		return BlockFace.UP;
+
+    	
+    	// find closest blockface in horizontal plane
+    	dPoint hPoint = new dPoint(player.getLocation().getX() - block.getX(), player.getLocation().getZ() - block.getZ());
+    	if(Math.abs(hPoint.r) > Math.abs(hPoint.s))
+    	{
+    		hPoint.s = hPoint.s / Math.abs(hPoint.r);
+    		hPoint.r = hPoint.r / Math.abs(hPoint.r);
+    	}
+    	else
+    	{
+    		hPoint.r = hPoint.r / Math.abs(hPoint.s);
+    		hPoint.s = hPoint.s / Math.abs(hPoint.s);
+    	}
+    	
+    	if(pointInTriangle(hPoint, new dPoint(-10,10), new dPoint(0,0), new dPoint(-10,-10)))
+    		return BlockFace.NORTH;
+    	else if(pointInTriangle(hPoint, new dPoint(-10,-10), new dPoint(0,0), new dPoint(10,-10)))
+    		return BlockFace.EAST;
+    	else if(pointInTriangle(hPoint, new dPoint(10,10), new dPoint(0,0), new dPoint(10,-10)))
+    		return BlockFace.SOUTH;
+    	else
+    		return BlockFace.WEST;
+    }
+    
+    double sign(dPoint p1, dPoint p2, dPoint p3)
+    {
+      return (p1.r - p3.r) * (p2.s - p3.s) - (p2.r - p3.r) * (p1.s - p3.s);
+    }
+    
+    Boolean pointInTriangle(dPoint pt, dPoint v1, dPoint v2, dPoint v3)
+    {
+      Boolean b1, b2, b3;
+
+      b1 = sign(pt, v1, v2) < 0.0d;
+      b2 = sign(pt, v2, v3) < 0.0d;
+      b3 = sign(pt, v3, v1) < 0.0d;
+
+      return ((b1 == b2) && (b2 == b3));
+    }
+
 }
