@@ -58,7 +58,11 @@ public class MSTListenerFloatingHatch implements Listener {
 			Player player = event.getPlayer();
 			
 			// return if they can't build here
-			if(!Plugin.canBuild(player, block)) return;
+			if(!Plugin.canBuild(player, block)) 
+			{
+				event.setCancelled(true);
+				return;
+			}
 
 			Material itemInHandMaterial = player.getItemInHand().getType();
 

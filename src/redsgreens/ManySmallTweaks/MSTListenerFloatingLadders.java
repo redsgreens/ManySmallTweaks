@@ -58,7 +58,7 @@ public class MSTListenerFloatingLadders implements Listener {
 		
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event)
 	{
 		if(event.isCancelled()) return;
@@ -76,6 +76,13 @@ public class MSTListenerFloatingLadders implements Listener {
 
 				if(behindLadder.getType() == Material.LADDER)
 				{
+					// return if they can't build here
+					if(!Plugin.canBuild(event.getPlayer(), block))
+					{
+						event.setCancelled(true);
+						return;
+					}
+					
 					DeletedLadders.add(behindLadder);
 					behindLadder.setType(Material.AIR);
 					DeletedLadders.remove(behindLadder);
@@ -103,7 +110,11 @@ public class MSTListenerFloatingLadders implements Listener {
 			Player player = event.getPlayer();
 			
 			// return if they can't build here
-			if(!Plugin.canBuild(player, block)) return;
+			if(!Plugin.canBuild(player, block))
+			{
+				event.setCancelled(true);
+				return;
+			}
 
 			Material blockMaterial = block.getType();
 			BlockFace blockFace = event.getBlockFace();

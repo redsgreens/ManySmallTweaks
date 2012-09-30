@@ -71,7 +71,6 @@ public class MSTPlugin extends JavaPlugin {
         // comment this out for release
 //        pm.registerEvents(new MSTListenerTest(this), this);
         
-        System.out.println(this.Name + " v" + this.Version + " is enabled!" );
     }
 
 
@@ -109,6 +108,8 @@ public class MSTPlugin extends JavaPlugin {
 			return b.getRelative(BlockFace.NORTH);
 		case 5:
 			return b.getRelative(BlockFace.DOWN);
+		case 7:
+			return b.getRelative(BlockFace.UP);
 		default:
 			return b;				
 		}

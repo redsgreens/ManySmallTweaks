@@ -97,7 +97,11 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 			
 			
 			// return if they can't build here
-			if(!Plugin.canBuild(player, block)) return;
+			if(!Plugin.canBuild(player, block))
+			{
+				event.setCancelled(true);
+				return;
+			}
 
 			Material blockMaterial = block.getType();
 
