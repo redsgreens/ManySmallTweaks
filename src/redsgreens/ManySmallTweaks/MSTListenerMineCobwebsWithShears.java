@@ -44,19 +44,19 @@ public class MSTListenerMineCobwebsWithShears implements Listener {
 		{
 			Player player = event.getPlayer();
 			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block))
-			{
-				event.setCancelled(true);
-				return;
-			}
-
 			Material blockMaterial = block.getType();
 			ItemStack itemInHand = player.getItemInHand();
 			Material itemInHandMaterial = itemInHand.getType();
 
 			if(blockMaterial == Material.WEB && itemInHandMaterial == Material.SHEARS)
 			{
+				// return if they can't build here
+				if(!Plugin.canBuild(player, block))
+				{
+					event.setCancelled(true);
+					return;
+				}
+
 				event.setCancelled(true);
 				if(player.getGameMode() != GameMode.CREATIVE)
 					itemInHand.setDurability(((Integer)(itemInHand.getDurability()+1)).shortValue());

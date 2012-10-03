@@ -89,13 +89,6 @@ public class MSTListenerFloatingRails implements Listener {
 		{
 			Player player = event.getPlayer();
 			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block))
-			{
-				event.setCancelled(true);
-				return;
-			}
-
 			Material blockMaterial = block.getType();
 			BlockFace blockFace = event.getBlockFace();
 			ItemStack itemInHand = player.getItemInHand();
@@ -109,6 +102,13 @@ public class MSTListenerFloatingRails implements Listener {
 
 	        	// return if blockface is not a side
 	        	if(blockFace != BlockFace.EAST && blockFace != BlockFace.WEST && blockFace != BlockFace.NORTH && blockFace != BlockFace.SOUTH) return;
+
+				// return if they can't build here
+				if(!Plugin.canBuild(player, block))
+				{
+					event.setCancelled(true);
+					return;
+				}
 
 	        	// place another rail in the adjacent block
 	    		Block block2 = block.getRelative(blockFace);
@@ -124,6 +124,14 @@ public class MSTListenerFloatingRails implements Listener {
 	    		
 	    		if(blockAbove.getType() == Material.AIR)
 	    		{
+
+	    			// return if they can't build here
+	    			if(!Plugin.canBuild(player, blockAbove))
+	    			{
+	    				event.setCancelled(true);
+	    				return;
+	    			}
+
 	    			blockAbove.setType(itemInHandMaterial);
 	    			Plugin.takeItemInHand(player);
 	    		}

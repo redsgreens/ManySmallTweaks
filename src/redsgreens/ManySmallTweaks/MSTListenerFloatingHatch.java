@@ -57,13 +57,6 @@ public class MSTListenerFloatingHatch implements Listener {
 		{
 			Player player = event.getPlayer();
 			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block)) 
-			{
-				event.setCancelled(true);
-				return;
-			}
-
 			Material itemInHandMaterial = player.getItemInHand().getType();
 
 	    	// return if item in hand is not a hatch
@@ -84,7 +77,14 @@ public class MSTListenerFloatingHatch implements Listener {
 	    	
 	    	// return if block above ladder is not air
 	    	if(blockAbove.getType() != Material.AIR) return;
-	    	
+
+			// return if they can't build here
+			if(!Plugin.canBuild(player, block)) 
+			{
+				event.setCancelled(true);
+				return;
+			}
+
 	    	blockAbove.setType(Material.TRAP_DOOR);
 	    	
 	    	Byte newData = 0;

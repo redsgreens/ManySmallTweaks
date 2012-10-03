@@ -81,28 +81,27 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 		}
 		else if(action == Action.RIGHT_CLICK_AIR)
 		{
-			block = player.getTargetBlock(null, 5);
-			blockFace = getClosestBlockFace(block, player);
-			if(block == null)
+			try
+			{
+				block = player.getTargetBlock(null, 5);
+				blockFace = getClosestBlockFace(block, player);
+				if(block == null)
+					return;
+				else if(block.getType() == Material.AIR)
+					return;
+				else if(block.getLocation().distance(player.getLocation()) > 4)
+					return;
+			}
+			catch(Exception e)
+			{
 				return;
-			else if(block.getType() == Material.AIR)
-				return;
-			else if(block.getLocation().distance(player.getLocation()) > 4)
-				return;
+			}
 		}
 		else return;
 		
 		if(Plugin.Config.isTweakEnabled(block.getWorld().getName(), MSTName.ButtonsOnMoreBlocks))
 		{
 			
-			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block))
-			{
-				event.setCancelled(true);
-				return;
-			}
-
 			Material blockMaterial = block.getType();
 
 			// return if the block is not allowed
@@ -115,6 +114,13 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 
 			// return if they don't have a button or lever in hand
 			if(itemInHandMaterial != Material.STONE_BUTTON && itemInHandMaterial != Material.LEVER && itemInHandMaterial != Material.WOOD_PLATE && itemInHandMaterial != Material.STONE_PLATE) return;
+
+			// return if they can't build here
+			if(!Plugin.canBuild(player, block))
+			{
+				event.setCancelled(true);
+				return;
+			}
 
 			// determine which face was clicked and attach the corresponding button
 			Block button;

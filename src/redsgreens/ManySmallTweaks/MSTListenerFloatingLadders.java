@@ -109,13 +109,6 @@ public class MSTListenerFloatingLadders implements Listener {
 		{
 			Player player = event.getPlayer();
 			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block))
-			{
-				event.setCancelled(true);
-				return;
-			}
-
 			Material blockMaterial = block.getType();
 			BlockFace blockFace = event.getBlockFace();
 			ItemStack itemInHand = player.getItemInHand();
@@ -129,7 +122,14 @@ public class MSTListenerFloatingLadders implements Listener {
 
 	    	// return if blockface is neither up nor down
 	    	if(blockFace != BlockFace.UP && blockFace != BlockFace.DOWN) return;
-	    	
+
+			// return if they can't build here
+			if(!Plugin.canBuild(player, block))
+			{
+				event.setCancelled(true);
+				return;
+			}
+
 	    	// place another ladder in the adjacent block
 			Block block2 = block.getRelative(blockFace);
 			if(block2.getType() != Material.AIR) return;

@@ -50,9 +50,6 @@ public class MSTListenerFloatingLilyPads implements Listener {
 		{
 			Player player = event.getPlayer();
 			
-			// return if they can't build here
-			if(!Plugin.canBuild(player, block)) return;
-
 			BlockFace blockFace = event.getBlockFace();
 			Material itemInHandMaterial = player.getItemInHand().getType();
 
@@ -61,6 +58,14 @@ public class MSTListenerFloatingLilyPads implements Listener {
 	    		Block blockAbove = block.getRelative(BlockFace.UP);
 	    		if(blockAbove.getType() == Material.AIR)
 	    		{
+
+	    			// return if they can't build here
+	    			if(!Plugin.canBuild(player, blockAbove))
+	    			{
+	    				event.setCancelled(true);
+	    				return;
+	    			}
+
 	    			blockAbove.setType(Material.WATER_LILY);
 	    			Plugin.takeItemInHand(player);
 	    		}
