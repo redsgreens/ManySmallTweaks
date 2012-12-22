@@ -98,6 +98,7 @@ public class MSTPlugin extends JavaPlugin {
 
 		switch(d)
 		{
+/*
 		case 4:
 			return b.getRelative(BlockFace.WEST);
 		case 3:
@@ -106,6 +107,16 @@ public class MSTPlugin extends JavaPlugin {
 			return b.getRelative(BlockFace.SOUTH);
 		case 1:
 			return b.getRelative(BlockFace.NORTH);
+*/
+		case 4:
+			return b.getRelative(BlockFace.SOUTH);
+		case 3:
+			return b.getRelative(BlockFace.NORTH);
+		case 2:
+			return b.getRelative(BlockFace.EAST);
+		case 1:
+			return b.getRelative(BlockFace.WEST);
+
 		case 5:
 			return b.getRelative(BlockFace.DOWN);
 		case 7:

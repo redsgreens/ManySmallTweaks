@@ -7,7 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.entity.CraftItem;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -79,9 +79,9 @@ public class MSTListenerMineCobwebsWithShears implements Listener {
     	// return if the event is cancelled
     	if(event.isCancelled()) return;
 
-    	if(event.getEntity() instanceof CraftItem)
+    	if(event.getEntity() instanceof Item)
     	{
-    		ItemStack item = ((CraftItem) event.getEntity()).getItemStack();
+    		ItemStack item = ((Item) event.getEntity()).getItemStack();
     		if(item.getType() == Material.STRING && isDropFromBrokenWeb(event.getLocation()))
     			item.setType(Material.WEB);
     	}

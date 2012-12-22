@@ -3,13 +3,10 @@ package redsgreens.ManySmallTweaks;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 public class MSTListenerFloatingHatch implements Listener {
 
@@ -39,7 +36,7 @@ public class MSTListenerFloatingHatch implements Listener {
 			}
 		
 	}
-	
+/*	
 	// allow a hatch to be placed above a ladder easily
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event)
@@ -113,29 +110,34 @@ public class MSTListenerFloatingHatch implements Listener {
 
 		}
     }
-    
+*/
+	
     Block getBlockBehindHatch(Block block)
     {
+//		System.out.println(block.getData());
     	
     	switch(block.getData())
     	{
+    		case 12: 
+    		case 8:
     		case 4: 
-    		case 0: return block.getRelative(BlockFace.WEST);
+    		case 0: return block.getRelative(BlockFace.SOUTH);
     		
+    		case 13:
+    		case 9:
     		case 5:
-    		case 1: return block.getRelative(BlockFace.EAST);
+    		case 1: return block.getRelative(BlockFace.NORTH);
     		
+    		case 14:
+    		case 10:
     		case 6:
-    		case 2: return block.getRelative(BlockFace.SOUTH);
+    		case 2: return block.getRelative(BlockFace.EAST);
     		
+    		case 15:
+    		case 11:
     		case 7:
-    		case 3: return block.getRelative(BlockFace.NORTH);
+    		case 3: return block.getRelative(BlockFace.WEST);
     		default: 
-//    			System.out.println(block.getData());
-//   			System.out.println("NORTH:" + block.getRelative(BlockFace.NORTH).getType());
-//    			System.out.println("SOUTH:" + block.getRelative(BlockFace.SOUTH).getType());
-//    			System.out.println("EAST:" + block.getRelative(BlockFace.EAST).getType());
-//    			System.out.println("WEST:" + block.getRelative(BlockFace.WEST).getType());
     			return null;
     	}
     	

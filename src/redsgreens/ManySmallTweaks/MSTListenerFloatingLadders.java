@@ -186,17 +186,17 @@ public class MSTListenerFloatingLadders implements Listener {
 
 		switch(data)
 		{
-		case 2: // facing east
-			return ladder.getRelative(BlockFace.WEST);
-			
-		case 3: // facing west
-			return ladder.getRelative(BlockFace.EAST);
-			
-		case 4: // facing north
+		case 2: 
 			return ladder.getRelative(BlockFace.SOUTH);
-
-		case 5: // facing south
+			
+		case 3: 
 			return ladder.getRelative(BlockFace.NORTH);
+			
+		case 4: 
+			return ladder.getRelative(BlockFace.EAST);
+
+		case 5: 
+			return ladder.getRelative(BlockFace.WEST);
 		}
 
 		return null;

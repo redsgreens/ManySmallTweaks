@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.painting.PaintingBreakEvent;
 import org.bukkit.event.painting.PaintingBreakEvent.RemoveCause;
 
+@SuppressWarnings("deprecation")
 public class MSTListenerFloatingPaintings implements Listener {
 
 	private MSTPlugin Plugin;

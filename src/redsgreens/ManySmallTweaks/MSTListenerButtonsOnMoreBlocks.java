@@ -49,7 +49,7 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 		{
 			Material material = block.getType();
 			
-			if(material == Material.STONE_BUTTON || material == Material.LEVER)
+			if(material == Material.STONE_BUTTON || material == Material.LEVER || material == Material.WOOD_BUTTON)
 			{
 				if(Plugin.getBlockBehindButton(block).getType() != Material.AIR)
 					event.setCancelled(true);
@@ -106,14 +106,14 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 
 			// return if the block is not allowed
 			if(!Plugin.isTransparent(block) && !AllowedButtonMaterials.contains(blockMaterial)) return;
-			if(blockMaterial == Material.STONE_BUTTON || blockMaterial == Material.LEVER) return;
+			if(blockMaterial == Material.STONE_BUTTON || blockMaterial == Material.LEVER || blockMaterial == Material.WOOD_BUTTON) return;
 
 			
 			ItemStack itemInHand = player.getItemInHand();
 			Material itemInHandMaterial = itemInHand.getType();
 
 			// return if they don't have a button or lever in hand
-			if(itemInHandMaterial != Material.STONE_BUTTON && itemInHandMaterial != Material.LEVER && itemInHandMaterial != Material.WOOD_PLATE && itemInHandMaterial != Material.STONE_PLATE) return;
+			if(itemInHandMaterial != Material.STONE_BUTTON && itemInHandMaterial != Material.LEVER && itemInHandMaterial != Material.WOOD_PLATE && itemInHandMaterial != Material.STONE_PLATE && itemInHandMaterial != Material.WOOD_BUTTON) return;
 
 			// return if they can't build here
 			if(!Plugin.canBuild(player, block))
@@ -126,32 +126,32 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 			Block button;
 			switch(blockFace)
 			{
-			case EAST: // facing east
-				button = block.getRelative(BlockFace.EAST); 
+			case NORTH: 
+				button = block.getRelative(BlockFace.NORTH); 
 				if(button.getType() == Material.AIR)
 				{
 					button.setType(itemInHandMaterial);
 					button.setData((byte)4);
 				}
 				break;
-			case WEST: // facing west
-				button = block.getRelative(BlockFace.WEST); 
+			case SOUTH:
+				button = block.getRelative(BlockFace.SOUTH); 
 				if(button.getType() == Material.AIR)
 				{
 					button.setType(itemInHandMaterial);
 					button.setData((byte)3);
 				}
 				break;
-			case NORTH: // facing north
-				button = block.getRelative(BlockFace.NORTH); 
+			case WEST:
+				button = block.getRelative(BlockFace.WEST); 
 				if(button.getType() == Material.AIR)
 				{
 					button.setType(itemInHandMaterial);
 					button.setData((byte)2);
 				}
 				break;
-			case SOUTH: // facing south
-				button = block.getRelative(BlockFace.SOUTH); 
+			case EAST: 
+				button = block.getRelative(BlockFace.EAST); 
 				if(button.getType() == Material.AIR)
 				{
 					button.setType(itemInHandMaterial);
@@ -159,7 +159,7 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 				}
 				break;
 			case UP:
-				if(itemInHandMaterial == Material.STONE_BUTTON) return; // buttons can't go on the top
+				if(itemInHandMaterial == Material.STONE_BUTTON || itemInHandMaterial == Material.WOOD_BUTTON) return; // buttons can't go on the top
 				button = block.getRelative(BlockFace.UP); 
 				if(button.getType() == Material.AIR)
 				{
@@ -169,7 +169,7 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 				}
 				break;
 			case DOWN:
-				if(itemInHandMaterial == Material.STONE_BUTTON) return; // buttons can't go on the bottom
+				if(itemInHandMaterial == Material.STONE_BUTTON || itemInHandMaterial == Material.WOOD_BUTTON) return; // buttons can't go on the bottom
 				button = block.getRelative(BlockFace.DOWN); 
 				if(button.getType() == Material.AIR)
 				{
@@ -230,13 +230,13 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
     	}
     	
     	if(pointInTriangle(hPoint, new dPoint(-10,10), new dPoint(0,0), new dPoint(-10,-10)))
-    		return BlockFace.NORTH;
-    	else if(pointInTriangle(hPoint, new dPoint(-10,-10), new dPoint(0,0), new dPoint(10,-10)))
-    		return BlockFace.EAST;
-    	else if(pointInTriangle(hPoint, new dPoint(10,10), new dPoint(0,0), new dPoint(10,-10)))
-    		return BlockFace.SOUTH;
-    	else
     		return BlockFace.WEST;
+    	else if(pointInTriangle(hPoint, new dPoint(-10,-10), new dPoint(0,0), new dPoint(10,-10)))
+    		return BlockFace.NORTH;
+    	else if(pointInTriangle(hPoint, new dPoint(10,10), new dPoint(0,0), new dPoint(10,-10)))
+    		return BlockFace.EAST;
+    	else
+    		return BlockFace.SOUTH;
     }
     
     double sign(dPoint p1, dPoint p2, dPoint p3)
