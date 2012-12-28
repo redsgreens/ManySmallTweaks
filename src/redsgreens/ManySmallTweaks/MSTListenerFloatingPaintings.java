@@ -3,10 +3,9 @@ package redsgreens.ManySmallTweaks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.painting.PaintingBreakEvent;
-import org.bukkit.event.painting.PaintingBreakEvent.RemoveCause;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
-@SuppressWarnings("deprecation")
 public class MSTListenerFloatingPaintings implements Listener {
 
 	private MSTPlugin Plugin;
@@ -17,10 +16,10 @@ public class MSTListenerFloatingPaintings implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPaintingBreak(PaintingBreakEvent event)
+	public void onHangingBreak(HangingBreakEvent event)
 	{
 		if(event.getCause() != RemoveCause.PHYSICS || event.isCancelled()) return;
-		if(Plugin.Config.isTweakEnabled(event.getPainting().getWorld().getName(), MSTName.FloatingPaintings))
+		if(Plugin.Config.isTweakEnabled(event.getEntity().getWorld().getName(), MSTName.FloatingPaintings))
 			event.setCancelled(true);
 	}
 

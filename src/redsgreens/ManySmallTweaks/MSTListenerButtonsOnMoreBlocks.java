@@ -31,7 +31,7 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 	
 	private MSTPlugin Plugin;
 
-	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE));
+	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE, Material.COMMAND));
 
 	public MSTListenerButtonsOnMoreBlocks(MSTPlugin plugin)
 	{
