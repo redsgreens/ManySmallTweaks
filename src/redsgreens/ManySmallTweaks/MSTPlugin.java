@@ -57,7 +57,7 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.FloatingPaintings)) pm.registerEvents(new MSTListenerFloatingPaintings(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.FloatingRails)) pm.registerEvents(new MSTListenerFloatingRails(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.InfiniteCauldrons)) pm.registerEvents(new MSTListenerInfiniteCauldrons(this), this);
-        if(Config.isTweakEnabledAnywhere(MSTName.KeepSaddleOnPigDeath)) pm.registerEvents(new MSTListenerKeepSaddleOnPigDeath(this), this);
+//        if(Config.isTweakEnabledAnywhere(MSTName.KeepSaddleOnPigDeath)) pm.registerEvents(new MSTListenerKeepSaddleOnPigDeath(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.PigsReproduceQuick)) pm.registerEvents(new MSTListenerPigsReproduceQuick(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.ProjectileTriggers)) pm.registerEvents(new MSTListenerProjectileTriggers(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.RedstoneIgnitesNetherrack)) pm.registerEvents(new MSTListenerRedstoneIgnitesNetherrack(this), this);
@@ -65,9 +65,7 @@ public class MSTPlugin extends JavaPlugin {
         if(Config.isTweakEnabledAnywhere(MSTName.PercentColorSheep)) pm.registerEvents(new MSTListenerPercentColorSheep(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.PercentSaddledPigs)) pm.registerEvents(new MSTListenerPercentSaddledPigs(this), this);
         if(Config.isTweakEnabledAnywhere(MSTName.MineCobwebsWithShears)) pm.registerEvents(new MSTListenerMineCobwebsWithShears(this), this);
-        
-//        pm.registerEvents(new MSTListenerDaylightSensor(this), this);
-        
+               
         // comment this out for release
 //        pm.registerEvents(new MSTListenerTest(this), this);
         

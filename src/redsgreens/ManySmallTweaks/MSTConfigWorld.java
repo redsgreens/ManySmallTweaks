@@ -9,7 +9,7 @@ public class MSTConfigWorld {
 	public Boolean ProjectileTriggers = false;
 	public Double PercentSaddledPigs = 0D;
     public Double PercentColorSheep = 0D;
-    public Boolean KeepSaddleOnPigDeath = false;
+//    public Boolean KeepSaddleOnPigDeath = false;
     public Boolean RedstoneIgnitesNetherrack = false;
     public Boolean InfiniteCauldrons = false;
     public Boolean PigsReproduceQuick = false;
@@ -19,7 +19,7 @@ public class MSTConfigWorld {
     public Boolean MineCobwebsWithShears = false;
 
 	public MSTConfigWorld(Boolean floatingLadders, Boolean floatingRails, Boolean floatingHatch, Boolean buttonsOnMoreBlocks, 
-			Boolean projectileTriggers, Double percentSaddledPigs, Double percentColorSheep, Boolean keepSaddleOnPigDeath, Boolean redstoneIgnitesNetherrack,
+			Boolean projectileTriggers, Double percentSaddledPigs, Double percentColorSheep, Boolean redstoneIgnitesNetherrack,
 			Boolean infiniteCauldrons, Boolean pigsReproduceQuick, Boolean redstoneIgnitesPumpkins, Boolean floatingLilyPads, Boolean floatingPaintings,
 			Boolean mineCobwebsWithShears)
 	{
@@ -30,7 +30,7 @@ public class MSTConfigWorld {
 		ProjectileTriggers = projectileTriggers;
 		PercentSaddledPigs = percentSaddledPigs;
 		PercentColorSheep = percentColorSheep;
-		KeepSaddleOnPigDeath = keepSaddleOnPigDeath;
+//		KeepSaddleOnPigDeath = keepSaddleOnPigDeath;
 		RedstoneIgnitesNetherrack = redstoneIgnitesNetherrack;
 		InfiniteCauldrons = infiniteCauldrons;
 		PigsReproduceQuick = pigsReproduceQuick;

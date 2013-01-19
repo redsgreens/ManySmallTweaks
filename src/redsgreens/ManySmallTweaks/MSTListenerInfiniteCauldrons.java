@@ -55,8 +55,16 @@ public class MSTListenerInfiniteCauldrons implements Listener {
 
 				if(itemInHandMaterial == Material.GLASS_BOTTLE)
 				{
-					itemInHand.setType(Material.POTION);
-					player.setItemInHand(itemInHand);
+					if(itemInHand.getAmount() == 1)
+					{
+						itemInHand.setType(Material.POTION);
+						player.setItemInHand(itemInHand);
+					}
+					else
+					{
+						Plugin.takeItemInHand(player);
+						player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.POTION, 1));
+					}
 					event.setCancelled(true);
 				}
 				else if(itemInHandMaterial == Material.BUCKET)

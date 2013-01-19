@@ -31,7 +31,7 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 	
 	private MSTPlugin Plugin;
 
-	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.DISPENSER, Material.NOTE_BLOCK, Material.JUKEBOX, Material.FURNACE, Material.COMMAND));
+	Set<Material> AllowedButtonMaterials = new HashSet<Material>(Arrays.asList(Material.PISTON_BASE, Material.PISTON_STICKY_BASE, Material.FURNACE, Material.COMMAND));
 
 	public MSTListenerButtonsOnMoreBlocks(MSTPlugin plugin)
 	{
@@ -103,11 +103,11 @@ public class MSTListenerButtonsOnMoreBlocks implements Listener {
 		{
 			
 			Material blockMaterial = block.getType();
-
 			// return if the block is not allowed
-			if(!Plugin.isTransparent(block) && !AllowedButtonMaterials.contains(blockMaterial)) return;
-			if(blockMaterial == Material.STONE_BUTTON || blockMaterial == Material.LEVER || blockMaterial == Material.WOOD_BUTTON) return;
+//			if(!Plugin.isTransparent(block) && !AllowedButtonMaterials.contains(blockMaterial)) return;
+			if(!block.getType().isTransparent() && !AllowedButtonMaterials.contains(blockMaterial)) return;
 
+			if(blockMaterial == Material.STONE_BUTTON || blockMaterial == Material.LEVER || blockMaterial == Material.WOOD_BUTTON) return;
 			
 			ItemStack itemInHand = player.getItemInHand();
 			Material itemInHandMaterial = itemInHand.getType();

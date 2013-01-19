@@ -33,7 +33,7 @@ public class MSTConfig {
 		booleanWorlds.put(MSTName.FloatingPaintings, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.FloatingRails, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.InfiniteCauldrons, new HashMap<String, Boolean>());
-		booleanWorlds.put(MSTName.KeepSaddleOnPigDeath, new HashMap<String, Boolean>());
+//		booleanWorlds.put(MSTName.KeepSaddleOnPigDeath, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.PigsReproduceQuick, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.ProjectileTriggers, new HashMap<String, Boolean>());
 		booleanWorlds.put(MSTName.RedstoneIgnitesNetherrack, new HashMap<String, Boolean>());
@@ -109,8 +109,8 @@ public class MSTConfig {
 					Defaults.PercentSaddledPigs = Double.parseDouble(defaults.get("PercentSaddledPigs").toString());
 				if(defaults.containsKey("PercentColorSheep"))
 					Defaults.PercentColorSheep = Double.parseDouble(defaults.get("PercentColorSheep").toString());
-				if(defaults.containsKey("KeepSaddleOnPigDeath"))
-					Defaults.KeepSaddleOnPigDeath = (Boolean)defaults.get("KeepSaddleOnPigDeath");
+//				if(defaults.containsKey("KeepSaddleOnPigDeath"))
+//					Defaults.KeepSaddleOnPigDeath = (Boolean)defaults.get("KeepSaddleOnPigDeath");
 				if(defaults.containsKey("RedstoneIgnitesNetherrack"))
 					Defaults.RedstoneIgnitesNetherrack = (Boolean)defaults.get("RedstoneIgnitesNetherrack");
 				if(defaults.containsKey("InfiniteCauldrons"))
@@ -148,7 +148,7 @@ public class MSTConfig {
 						Boolean projectileTriggers = false;
 						Double percentSaddledPigs = 0D;
 					    Double percentColorSheep = 0D;
-					    Boolean keepSaddleOnPigDeath = false;
+//					    Boolean keepSaddleOnPigDeath = false;
 					    Boolean redstoneIgnitesNetherrack = false;
 					    Boolean infiniteCauldrons = false;
 					    Boolean pigsReproduceQuick = false;
@@ -194,11 +194,13 @@ public class MSTConfig {
 							percentColorSheep = Double.parseDouble(world.get("PercentColorSheep").toString());
 						else
 							percentColorSheep = Defaults.PercentColorSheep;
-						
+
+/*
 						if(world.containsKey("KeepSaddleOnPigDeath"))
 							keepSaddleOnPigDeath = (Boolean)world.get("KeepSaddleOnPigDeath");
 						else
 							keepSaddleOnPigDeath = Defaults.KeepSaddleOnPigDeath;
+*/
 						
 						if(world.containsKey("RedstoneIgnitesNetherrack"))
 							redstoneIgnitesNetherrack = (Boolean)world.get("RedstoneIgnitesNetherrack");
@@ -236,7 +238,7 @@ public class MSTConfig {
 							mineCobwebsWithShears = Defaults.MineCobwebsWithShears;
 
 						// add world to config hashmap
-						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, keepSaddleOnPigDeath, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings, mineCobwebsWithShears); 
+						MSTConfigWorld config = new MSTConfigWorld(floatingLadders, floatingRails, floatingHatch, buttonsOnMoreBlocks, projectileTriggers, percentSaddledPigs, percentColorSheep, redstoneIgnitesNetherrack, infiniteCauldrons, pigsReproduceQuick, redstoneIgnitesPumpkins, floatingLilyPads, floatingPaintings, mineCobwebsWithShears); 
 						addWorld(worldName, config);
 
 					}
@@ -279,7 +281,7 @@ public class MSTConfig {
 		System.out.println("ManySmallTweaks: " + name + ".FloatingPaintings=" + config.FloatingPaintings);
 		System.out.println("ManySmallTweaks: " + name + ".FloatingRails=" + config.FloatingRails);
 		System.out.println("ManySmallTweaks: " + name + ".InfiniteCauldrons=" + config.InfiniteCauldrons);
-		System.out.println("ManySmallTweaks: " + name + ".KeepSaddleOnPigDeath=" + config.KeepSaddleOnPigDeath);
+//		System.out.println("ManySmallTweaks: " + name + ".KeepSaddleOnPigDeath=" + config.KeepSaddleOnPigDeath);
 		System.out.println("ManySmallTweaks: " + name + ".PercentColorSheep=" + config.PercentColorSheep);
 		System.out.println("ManySmallTweaks: " + name + ".PercentSaddledPigs=" + config.PercentSaddledPigs);
 		System.out.println("ManySmallTweaks: " + name + ".PigsReproduceQuick=" + config.PigsReproduceQuick);
@@ -300,7 +302,7 @@ public class MSTConfig {
 		booleanWorlds.get(MSTName.FloatingPaintings).put(worldName, world.FloatingPaintings);
 		booleanWorlds.get(MSTName.FloatingRails).put(worldName, world.FloatingRails);
 		booleanWorlds.get(MSTName.InfiniteCauldrons).put(worldName, world.InfiniteCauldrons);
-		booleanWorlds.get(MSTName.KeepSaddleOnPigDeath).put(worldName, world.KeepSaddleOnPigDeath);
+//		booleanWorlds.get(MSTName.KeepSaddleOnPigDeath).put(worldName, world.KeepSaddleOnPigDeath);
 		booleanWorlds.get(MSTName.PigsReproduceQuick).put(worldName, world.PigsReproduceQuick);
 		booleanWorlds.get(MSTName.ProjectileTriggers).put(worldName, world.ProjectileTriggers);
 		booleanWorlds.get(MSTName.RedstoneIgnitesNetherrack).put(worldName, world.RedstoneIgnitesNetherrack);
