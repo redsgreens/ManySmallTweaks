@@ -69,9 +69,18 @@ public class MSTListenerInfiniteCauldrons implements Listener {
 				}
 				else if(itemInHandMaterial == Material.BUCKET)
 				{
-					itemInHand.setType(Material.WATER_BUCKET);
-					player.setItemInHand(itemInHand);
+					if(itemInHand.getAmount() == 1)
+					{
+						itemInHand.setType(Material.WATER_BUCKET);
+						player.setItemInHand(itemInHand);
+					}
+					else
+					{
+						Plugin.takeItemInHand(player);
+						player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.WATER_BUCKET, 1));
+					}
 					event.setCancelled(true);
+					
 				}
 	    	}
 
